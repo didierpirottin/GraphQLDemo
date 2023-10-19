@@ -1,0 +1,27 @@
+{
+  "id" : "f4c15902-36ca-476a-ab67-b02e65fe2f53",
+  "name" : "chat_completions",
+  "request" : {
+    "url" : "/chat/completions",
+    "method" : "POST",
+    "bodyPatterns" : [ {
+      "equalToJson" : "{\"model\":\"gpt-3.5-turbo\",\"messages\":[{\"role\":\"user\",\"content\":\"write a funny greeting message for a demo. The message must short, no more than 15 words.\"}],\"temperature\":0.7}",
+      "ignoreArrayOrder" : true,
+      "ignoreExtraElements" : true
+    } ]
+  },
+  "response" : {
+    "status" : 200,
+    "body" : "{\"id\":\"chatcmpl-86Z569Qg0rpXOO1uksNdkWfE5bQsm\",\"created\":1696575512,\"model\":\"gpt-3.5-turbo-0613\",\"choices\":[{\"index\":0,\"message\":{\"role\":\"assistant\",\"content\":\"\\\"Welcome to this demo, where mistakes are just happy accidents. Enjoy the show!\\\"\"},\"finish_reason\":\"stop\"}],\"usage\":{\"prompt_tokens\":28,\"completion_tokens\":17,\"total_tokens\":45}}",
+    "headers" : {
+      "Date" : "Fri, 06 Oct 2023 06:58:32 GMT",
+      "Content-Type" : "text/html;charset=utf-8",
+      "Server" : "Jetty(9.4.48.v20220622)"
+    }
+  },
+  "uuid" : "f4c15902-36ca-476a-ab67-b02e65fe2f53",
+  "persistent" : true,
+  "scenarioName" : "scenario-1-chat-completions",
+  "requiredScenarioState" : "scenario-1-chat-completions-2",
+  "insertionIndex" : 1
+}

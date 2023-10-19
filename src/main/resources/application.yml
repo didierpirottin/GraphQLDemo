@@ -1,0 +1,21 @@
+
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/graphql-demo
+    username: postgres
+    password: thelidia
+  graphql:
+    graphiql:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    org.jooq.tools.LoggerListener: debug
+
+demo:
+#  openai-proxy-url: http://localhost:8080
+  openai-proxy-url: http://langchain4j.dev/demo/openai/v1
+server:
+  port: 8081

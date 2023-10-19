@@ -1,0 +1,1 @@
+{"id":"chatcmpl-86Z4wXe6qJDKBU7aRdnCvA8wKe9CO","created":1696575502,"model":"gpt-3.5-turbo-0613","choices":[{"index":0,"message":{"role":"assistant","content":"\"Welcome to our demo, where software glitches are just misunderstood features!\""},"finish_reason":"stop"}],"usage":{"prompt_tokens":28,"completion_tokens":14,"total_tokens":42}}

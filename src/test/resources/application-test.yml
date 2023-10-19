@@ -1,0 +1,5 @@
+server:
+  port: 8082
+
+demo:
+  openai-proxy-url: http://localhost:8080

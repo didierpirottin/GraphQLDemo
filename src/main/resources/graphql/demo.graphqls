@@ -1,0 +1,63 @@
+type Query {
+    customers(filter: CustomerFilter): [Customer]!
+    demo: String!
+}
+
+input CustomerFilter {
+    firstName: StringFilter
+    lastName: StringFilter
+    address: AddressFilter
+}
+
+input AddressFilter {
+    exists: Boolean
+    streetNumber: StringFilter
+    streetName: StringFilter
+    zipCode: StringFilter
+    city: StringFilter
+    country: StringFilter
+}
+
+input StringFilter {
+    is: String
+    startsWith: String
+    contains: String
+    isOneOf: [String]
+}
+
+type Customer {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    address: Address
+    greeting: String!
+    accounts: [Account]!
+}
+
+input AccountFilter {
+    iban: StringFilter!
+    balance: FloatFilter!
+    currency: StringFilter!
+}
+
+input FloatFilter {
+    isGreater: Float
+    isGreaterOrEquals: Float
+    isLess: Float
+    isLessOrEquals: Float
+}
+
+type Address {
+    streetNumber: String!
+    streetName: String!
+    zipCode: String!
+    city: String!
+    country: String!
+}
+
+type Account {
+    id: ID!
+    iban: String!
+    balance: Float!
+    currency: String!
+}

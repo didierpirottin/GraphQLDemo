@@ -1,0 +1,31 @@
+= TODO
+
+== Improve search Customers
+
+Search base on address attributes
+- Search for customers without address
+
+== Add filter on the accounts
+
+Sur les attributs:
+
+- balance
+- currency
+
+== Tests
+
+based on Test containers
+
+=== Spring Boot Test Dynamic agent
+
+Try running tests without this JVM option and search why it doesn't work...
+
+-XX:+EnableDynamicAgentLoading
+
+=== TestContainer
+
+Add a test container for Postgres
+
+=== Wire Mock
+
+Review the use of wire mock, make a specific folder for the mappings
