@@ -1,16 +1,25 @@
 = TODO
 
+== Simulate demo
+
+- Live templates
+- file templates
+- ...
+
+== Slides
+
+- Canva or Else ???
+
+== Video
+
+Draft presentation
+
+Presentation of the talk proposal ?
+
 == Improve search Customers
 
 Search base on address attributes
 - Search for customers without address
-
-== Add filter on the accounts
-
-Sur les attributs:
-
-- balance
-- currency
 
 == Tests
 
