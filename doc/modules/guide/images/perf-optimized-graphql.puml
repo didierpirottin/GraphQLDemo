@@ -1,0 +1,13 @@
+@startuml
+consumer -> GraphQLService : graphQL query
+
+
+database database
+
+GraphQLService -> database: get customers with joined address and accounts
+
+GraphQLService -> OpenAI : get greetings for all customers using DataLoaders
+
+GraphQLService --> consumer : return all data \n(and only the data requested)\nin a single roundtrip
+
+@enduml

@@ -1,0 +1,48 @@
+= Spring for GraphQL
+:revealjs_customtheme: css/sky.css
+// :revealjs_autoSlide: 5000
+// :revealjs_history: true
+// :revealjs_fragmentInURL: true
+:revealjs_viewDistance: 5
+:revealjs_width: 1408
+:revealjs_height: 792
+:revealjs_controls: true
+:revealjs_controlsLayout: edges
+:revealjs_controlsTutorial: true
+// :revealjs_slideNumber: c/t
+// :revealjs_showSlideNumber: speaker
+// :revealjs_autoPlayMedia: true
+// :revealjs_defaultTiming: 42
+// //:revealjs_transitionSpeed: fast
+:revealjs_parallaxBackgroundImage: images/background-landscape-light-orange.jpg
+:revealjs_parallaxBackgroundSize: 4936px 2092px
+:customcss: css/presentation.css
+// :imagesdir: images
+// :source-highlighter: highlightjs
+// :highlightjs-theme: css/atom-one-light.css
+// // we want local served font-awesome fonts
+:iconfont-remote!:
+:iconfont-name: fonts/fontawesome/css/all
+
+Implementation & Performance Optimisations
+
+[.columns]
+[.lightbg,background-video="videos/agenda-bg.mp4",background-video-loop="true",background-opacity="0.7"]
+== Agenda
+
+[.column]
+- Hello World
+- Customer accounts
+** GraphQL Model
+** Database access (JooQ)
+** Combine with openAI service
+
+[.column]
+- Performance
+** What's the problem
+** How to solve it ?
+*** Using JooQ
+*** Using Data Loader
+- Conclusions
+
+

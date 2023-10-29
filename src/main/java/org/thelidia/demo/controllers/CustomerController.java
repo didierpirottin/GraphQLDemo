@@ -63,4 +63,5 @@ public class CustomerController {
         return openAiService.greeting(customer.firstName());
     }
 
+
 }
