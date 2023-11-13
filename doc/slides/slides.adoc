@@ -26,23 +26,190 @@
 
 Implementation & Performance Optimisations
 
-[.columns]
+
+[%auto-animate]
 [.lightbg,background-video="videos/agenda-bg.mp4",background-video-loop="true",background-opacity="0.7"]
 == Agenda
 
-[.column]
-- Hello World
-- Customer accounts
-** GraphQL Model
-** Database access (JooQ)
-** Combine with openAI service
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a"]
+|===
 
-[.column]
-- Performance
-** What's the problem
-** How to solve it ?
-*** Using JooQ
-*** Using Data Loader
-- Conclusions
+2+|image::images/grahpql_logo_inner.png[height=200]
+
+|===
+
+[%auto-animate]
+[.lightbg,background-video="videos/agenda-bg.mp4",background-video-loop="true",background-opacity="0.7"]
+== Agenda
+
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a"]
+|===
+
+|image::images/grahpql_logo_inner.png[height=200]
+|image::images/spring-boot-logo-300x158.png[height=200]
+
+|===
+
+[%auto-animate]
+[.lightbg,background-video="videos/agenda-bg.mp4",background-video-loop="true",background-opacity="0.7"]
+== Agenda
+
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a"]
+|===
+
+|image::images/grahpql_logo_inner.png[height=200]
+|image::images/spring-boot-logo-300x158.png[height=200]
+
+2+|image::images/jooq-logo-black.png[height=200]
+
+|===
 
 
+[%auto-animate]
+[.lightbg,background-video="videos/agenda-bg.mp4",background-video-loop="true",background-opacity="0.7"]
+== Agenda
+
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a"]
+|===
+
+|image::images/grahpql_logo_inner.png[height=200]
+|image::images/spring-boot-logo-300x158.png[height=200]
+|image::images/jooq-logo-black.png[height=200]
+|image::images/performance.png[height=200]
+
+|===
+
+
+[%auto-animate]
+[.lightbg,background-video="videos/live-coding.mp4",background-video-loop="true",background-opacity="0.7"]
+== Demo
+
+[%auto-animate]
+[.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
+== Performance
+
+Usual service performance issues :
+
+- *Over-fetching* : service returns *more* data than needed
+- *Under-fetching*: service returns *less* data than needed
+- *Query N+1 Issue*
+
+[%auto-animate]
+[.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
+== Query N+1 Issue
+
+image::images/perf-rest.png[width=50%]
+
+[%auto-animate]
+[.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
+== Performance - GraphQL
+
+image::images/perf-graphql.png[width=50%]
+
+[%auto-animate]
+[.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
+== Performance - GraphQL Backend
+
+image::images/perf-graphql-impl.png[width=50%]
+
+
+[%auto-animate]
+[.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
+== Performance - GraphQL Optimised
+
+image::images/perf-optimized-graphql.png[width=50%]
+
+
+
+[%auto-animate]
+[.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
+== Conclusions
+
+
+image::images/grahpql_logo_inner.png[height=100,align="center"]
+
+*Flexible* and *performant* data access service
+
+- *DSL* to specify the expose data model
+- *Dataloader*
+** "*Batch*" backend access
+** "*Cache*" backend access for same input
+** *Asynchronous* calls
+
+[%auto-animate]
+[.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
+== Conclusions
+
+image::images/jooq-logo-black.png[height=100,align="center"]
+
+*JooQ Dynamic queries* are a perfect match for GraphQL implementation!
+
+- *Join* table when needed
+- select *only the required fields*
+- *Multiset* to select tree data
+
+[%auto-animate]
+[.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
+== Conclusions
+
+[grid= none, frame = non]
+[cols="^.^a,.^5a"]
+|===
+|
+image::images/d-knuth.png[]
+|
+[.small]
+[quote,D. Knuth, ]
+____
+We _should_ forget about small efficiencies, say about 97% of the time: *premature optimization is the root of all evil*.
+
+Yet we _should not pass up our opportunities in that critical 3%_.
+____
+
+|===
+
+
+[%auto-animate]
+[.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
+== Resources
+
+[.col3-l.xx-small]
+--
+.References
+* link:https://graphql.org/[GraphQL]
+* link:https://spring.io/projects/spring-graphql[Spring for GraphQL]
+* link:https://www.jooq.org/[JooQ]
+* link:https://github.com/langchain4j/langchain4j[LangChain4J]
+* link:https://plugins.jetbrains.com/plugin/8097-graphql[IntelliJ GraphQL Plugin]
+* link:https://github.com/graphql-kit/graphql-voyager[Voyager]
+
+
+--
+
+[.col3-c.xx-small]
+--
+.Sources
+* https://github.com/didierpirottin/graphql-jooq-perf[Source code]
+
+.documentation
+* https://github.com/didierpirottin/graphql-jooq-perf[Slides]
+* https://github.com/didierpirottin/graphql-jooq-perf[Detailed step-by-step guide]
+
+.Contact
+* Email: mailto:didier.pirottin@gmail.com[]
+
+--
+
+[.col3-r.small]
+--
+image:images/qr-code.png[]
+[emphasize]#*http://bit.ly/3SEtuWb*#
+--

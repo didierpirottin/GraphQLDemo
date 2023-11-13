@@ -59,7 +59,7 @@ public class CustomerController {
 //    CompletableFuture<String> greeting(CustomerModel customer, DataFetchingEnvironment env) {
 //        DataLoader<String, String> dataLoader = env.getDataLoader(GREETING_DATALOADER);
 //        return dataLoader.load(customer.name());
-//        return openAiService.greetingAsync(customer.name());
+//        return openAiService.gr   eetingAsync(customer.name());
         return openAiService.greeting(customer.firstName());
     }
 

@@ -2,13 +2,51 @@
 
 == Intro
 
-Welcome to this presentation where we will discuss how to implement GraphQL in Java using Spring for GraphQL and more specifically how to address the usual performance issuess we can encounter.
+Welcome to this presentation about GraphQL and how to implement a GraphQL service in Java using Spring for GraphQL and JooQ for database access.
 
 This is not a basic introduction to GraphQL, but for those of you who do not know GraphQL much, don't worry, we will start with a basic hello world style example, and we will introduce more advanced features progressively.
 
+The main objective is to highlight some important attention point in the implementation, more specifically related to potential performance issues, and to address them.
+
 This talk is mainly a live coding presentation, so there will be very few slides.
 
-== Hello World.
+== Resources
+
+[.col3-l.xx-small]
+--
+.References
+* link:https://graphql.org/[GraphQL]
+* link:https://spring.io/projects/spring-graphql[Spring for GraphQL]
+* link:https://www.jooq.org/[JooQ]
+* link:https://github.com/langchain4j/langchain4j[LangChain4J]
+* link:https://plugins.jetbrains.com/plugin/8097-graphql[IntelliJ GraphQL Plugin]
+* link:https://github.com/graphql-kit/graphql-voyager[Voyager]
+
+
+--
+
+[.col3-c.xx-small]
+--
+.Sources
+* https://github.com/didierpirottin/graphql-jooq-perf[Source code]
+
+.documentation
+* https://github.com/didierpirottin/graphql-jooq-perf[Slides]
+* https://github.com/didierpirottin/graphql-jooq-perf[Detailed step-by-step guide]
+
+.Contact
+* Email: mailto:didier.pirottin@gmail.com[]
+
+--
+
+[.col3-r.small]
+--
+image:qr-code.png[width=160]
+[emphasize]#*http://bit.ly/3SEtuWb*#
+--
+
+
+== Hello World
 
 === Create the workspace
 
@@ -22,28 +60,108 @@ We will use Java 21, Spring Boot 3.1.5, Maven, just a few starters for now :
 - GraphQL
 - DevTools
 
-To make it a little more interesting, I will also use the "LangChain4J" lib, so I will add it to the dependencies in the pom file.
+image::create-project-1.png[]
 
-=== Creat the GraphQL Schema
+image::create-project-2.png[]
 
-Now, let's create a GraphQL Schema file, in the graphql folder of the resources, and call it demo.
+To make it a little more interesting, we will also use the "LangChain4J" lib, so let's add it to the dependencies in the pom file.
 
-A special type in GraphQL is the "Query" which is mandatory as it is the entry point in the GraphQL data model.
+[source,xml]
+.pom.xml
+----
+<dependency>
+    <groupId>dev.langchain4j</groupId>
+    <artifactId>langchain4j</artifactId>
+    <version>0.23.0</version>
+</dependency>
+<dependency>
+    <groupId>dev.langchain4j</groupId>
+    <artifactId>langchain4j-open-ai</artifactId>
+    <version>0.23.0</version>
+</dependency>
+----
 
-Let's simply add an entry "demo" that will return a simple String in this Query.
+=== Create the GraphQL Schema
+
+Now, let's create a GraphQL Schema file, in the ``graphql`` resource folder, and call it demo.
+
+[source,graphql]
+.demo.graphql
+----
+type Query { <1>
+    demo: String <2>
+}
+----
+<1> ``Query`` is a special type in GraphQL, it is the entry point in the GraphQL data model.
+<2> We simply add an entry "demo" that will return a String
 
 === Update the properties file
 
-Update the properties file to enable the GraphiQL endpoint and prepare the configuration url for langChain4J to call openAI later on.
+Update the properties file to enable the *GraphiQL* endpoint and prepare the configuration url for *langChain4J* to call openAI later on.
+
+[source]
+.application.properties
+----
+spring.graphql.graphiql.enabled=true <1>
+demo.openai-proxy-url=http://langchain4j.dev/demo/openai/v1 <2>
+----
+<1> Enable the GraphiQL endpoint
+<2> This is the url that will be used by langChain4J to call openAI
 
 === Run the app
 
-And just start the app, go to the graphiql endpoint and see the default behaviour, wich is return a null for the created endpoint.
+We just start the app now, go to the graphiql endpoint and see the default behaviour, which is returning a null for the created endpoint.
+
+_This is the default behaviour when no controller is defined._
 
 === Create the Controller
 
 Now, let's creat the "DemoController" class annotated @Controller and create a method "demo", annotated by @QueryMapping such that Spring will map any call to the demo entry point to this method.
 
+[source,java]
+.DemoController.java
+----
+@Controller <1>
+@RequiredArgsConstructor
+public class DemoController {
+    private final OpenAiService openAiService;
+
+    @QueryMapping <2>
+    String demo() { <3>
+        return openAiService.demoWelcomeMessage(); <4>
+    }
+}
+----
+<1> This is a Spring controller
+<2> This method will be mapped to an attribute of the ``Query`` type from GraphQL schema. By default, the mapped attribute will be the one corresponding to the method name.
+<3> Make sure to give a method signature that is compatible with the corresponding definition in the GraphQL schema.
+<4> Delegate to the OpenAiService to get a demo message.
+
+Here, we use *LangChain4J* library to get a text from openAI, using the ``OpenAiService``
+
+[source,java]
+.OpenAiService.java
+----
+public String demoWelcomeMessage() {
+    return model.generate(
+            """
+            Write a greeting message for a live coding demo talking about Spring for GraphQL.
+            The message must be short, no more than 50 words.
+            """);
+}
+----
+
+Running the query again will now give the answer from ChatGpt.
+
+[source, json]
+.query response
+----
+{
+  "data": {
+    "demo": "\"Welcome to the Spring for GraphQL demo!Get ready to spring into action as we dive into the world of software development with a twist of humor. Let's break some code and have a blooming good time!\"",
+  }
+}
+----
 
 == A more realistic sample with a Database
 
@@ -51,21 +169,111 @@ Now let's give a more realistic example, with some data stored in a customer dat
 
 The database is a Postgres DB, with the following tables :
 
-- Customer table, containing customers with their first name and laste name
-- An address table, containing addresses, an address could be shared by multiple customers
-- And an account table, each customer could have multiple accounts.
+image::database.png[]
+
+- A *customer* table, containing customers with their first name and laste name
+- An *address* table, containing addresses, an address could be shared by multiple customers
+- And an *account* table, each customer could have multiple accounts.
 
 === API First
 
-GraphQL promotes the API first approach through its DSL for designing the API, s let's begin to specify the API we would like to expose in the graphql schema.
+GraphQL promotes the *API first* approach through its DSL for designing the API. So, we'll start the implementation by specifying the API we would like to expose in the graphql schema.
+
+[source]
+.demo.graphqls
+----
+type Query {
+    customers: [Customer]
+}
+
+type Customer {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    address: Address
+    accounts: [Account]!
+}
+
+type Account {
+    id: ID!
+    iban: String!
+    balance: Float!
+    currency: String!
+}
+
+type Address {
+    streetNumber: String!
+    streetName: String!
+    zipCode: String!
+    city: String!
+    country: String!
+}
+----
+
+[NOTE]
+====
+Note the following syntax in GraphQL :
+
+- ``[<typeName>]`` means this is a list of ``<typeName>``
+
+- ``<typeName>!`` means that this value will never be ``null``
+====
 
 === Visualize the GraphQL data model using Voyager
 
-One of the advantages of the well-defined GraphQL specification is the possibility to create usefull tools around it. Voyager is one thes tools, let's just create a simple html file and see how the schema we just created wan be visualised to explore the GraphQL API.
+One of the advantages of the well-defined GraphQL specification is the possibility to create useful tools around it. Voyager is one these tools, let's just create a simple html file and see how the schema we just created wan be visualised to explore the GraphQL API.
+
+[source,html]
+.voyager.html
+----
+<!doctype html>
+<html>
+<head>
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
+    /> <1>
+    <script
+        src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js">
+    </script> <1>
+</head>
+
+<body>
+<div id="voyager">Loading...</div>
+<script type="module">
+    const {voyagerIntrospectionQuery: query} = GraphQLVoyager;
+    const response = await fetch(
+        'http://localhost:8082/graphql', <2>
+        {
+            method: 'post',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({query}),
+            credentials: 'omit',
+        },
+    );
+    const introspection = await response.json();
+
+    // Render <Voyager /> into the body.
+    GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+        introspection,
+    });
+</script>
+</body>
+</html>
+----
+<1> Include CSS and Javascript from CDN
+<2> Configure the GraphQL endpoint
+
+Here is a screenshot of the Voyager UI on our basic example :
+
+// TODO
 
 === Datasource and JooQ configuration
 
-Before implementing the API, we need to add a few dependencies to access the Postgres DB and here, we will use https://www.jooq.org/[JooQ] as the database library. As we will see later on, this library is a perfect match for GraphQL.
+Before implementing the API, we need to add a few dependencies to access the Postgres DB. Here, we will use https://www.jooq.org/[JooQ] as the database library. As we will see later on, this library is a perfect match for GraphQL.
 
 [source, xml]
 .pom.xml
@@ -80,12 +288,12 @@ Before implementing the API, we need to add a few dependencies to access the Pos
     <version>42.6.0</version> <2>
 </dependency>
 ----
-<1> JooQ library
+<1> JooQ Spring Starter
 <2> PostgreSql driver
 
 ==== JooQ code generation
 
-As JooQ is based on code generation, from the dabase schema, I will also add a JooQ maven plugin to perform the required code generation.
+As JooQ is based on *code generation*, from the dabase schema, we also add a *JooQ maven plugin* to perform the required code generation.
 
 [source,xml]
 .pom.xml
@@ -110,8 +318,8 @@ As JooQ is based on code generation, from the dabase schema, I will also add a J
         <jdbc> <2>
             <driver>org.postgresql.Driver</driver>
             <url>jdbc:postgresql://localhost:5432/graphql-demo</url>
-            <user>postgres</user>
-            <password>thelidia</password>
+            <user>demo</user>
+            <password>demo</password>
         </jdbc>
 
         <generator>
@@ -155,18 +363,27 @@ We can now generate the code, compiling our project using maven.
 Make sure the generated code is considered as source code by your IDE.
 ====
 
+[grid= none, frame = non]
+[cols="^.^a,.^a"]
+|===
+|
+image::generated-code.png[]
+|
 Let's explore the generated code, it contains
 
 - A class per table, containing information about the table and its columns
-- A "record" Class (it's not Java records) that can be used to get data returned by SQL queries.
+- A *"record" Class* (it's not Java records) that can be used to get data returned by SQL queries.
 
-=== CustomerModel
+|===
 
-JooQ generates record classes that map the Database model.
 
-On the other hand, we need to return data that maps the GraphQL data model and most of the time, there are differences between these two models.
+=== The exposed model classes
 
-A good practice is hence to decouple these two models by creating "model classes" that are aligned to the GraphQL data model. This is similar to the DTOs (Data Transfer Object) used in REST services.
+JooQ generates classes that map the Database model.
+
+On the other hand, we need to return data that maps the GraphQL data model and most of the time, _there are differences between these two models_.
+
+A good practice is hence to *decouple* these two models by creating "*GraphQL model classes*" that are more aligned to the GraphQL data model. This is similar to the DTOs (Data Transfer Object) used in REST services.
 
 So, let's create a CustomerModel as a simple Java record.
 
@@ -182,7 +399,7 @@ public record CustomerModel(
 
 [WARNING]
 ====
-Note here that we also define the "addressId" in this model, while it is not exposed in the GraphQL data model, but it will be required later on.
+Note here that we also define the "addressId" in this model. It is not _exposed_ in the GraphQL data model, but it will be used to get the _exposed address_ as we will see later on.
 ====
 
 Similarly, we can already create the other model classes of our GraphQL schema : ``AddressModel`` and ``AccountModel``.
@@ -204,11 +421,12 @@ public class CustomerController {
 
     @QueryMapping <2>
     List<CustomerModel> customers() { <3>
-        return dslContext.selectFrom(Customers.CUSTOMERS) <4>
+        return dslContext.select(CUSTOMERS.asterisk()) <4>
+                .from(CUSTOMERS)
                 .fetch()
                 .stream()
                 .map(CustomerModelMapper::mapCustomerRecordToModel) <5>
-                .collect(Collectors.toList());
+                .toList();
     }
 }
 ----
@@ -227,14 +445,17 @@ public static CustomerModel mapCustomerRecordToModel(Record record) {
     if (record == null) {
         return null;
     }
-    return new CustomerModel(
-            record.get(CUSTOMERS.ID),
-            record.get(CUSTOMERS.FIRST_NAME),
-            record.get(CUSTOMERS.LAST_NAME),
-            record.get(CUSTOMERS.ADDRESS_ID)
-    );
+    CustomersRecord customerRecord = record.into(CUSTOMERS); <1>
+        return new CustomerModel(
+                customerRecord.getId(),
+                customerRecord.getFirstName(),
+                customerRecord.getLastName(),
+                customerRecord.getAddressId()
+        );
 }
 ----
+<1> We use the ``into`` method to map the generic record to a ``CustomerRecord``, this is the specific record classes generated by JooQ for each table.
+<2> We map the JooQ ``CustomerRecord`` to our model ``CustomerModel``.
 
 [TIP]
 ====
@@ -254,7 +475,7 @@ query {
 }
 ----
 
-=== Fetching the cusomer's address
+=== Fetching the customer's address
 
 Now, if we try to get customer address data, such as in this query :
 
@@ -276,7 +497,7 @@ query {
 }
 ----
 
-All the returned addresses are null by default.
+All the returned addresses are ``null`` by default.
 
 So let's add an ``@SchemaMapping`` to the CustomerController :
 
@@ -294,15 +515,15 @@ AddressModel address(CustomerModel customer) { <2>
             .map(AddressModelMapper::mapAddressRecordToModel); <5>
 }
 ----
-<1> The ``@SchemaMapping`` annotation maps the attributes of a given GraphQL type, passed as argument in the annotation. The name of the mapped attribute is the method name, by default.
+<1> The ``@SchemaMapping`` annotation maps the attributes of a given GraphQL type, passed as argument in the annotation.
 <2> The name of the mapped attribute is the method name, by default. Also note here that the current ``CustomerModel`` is injected in the method called by Spring.
-<3> If the customer does not have an ``addressId``, we simply return null, as there is no known address
+<3> If the customer does not have an ``addressId``, we simply return null, as it has no known address
 <4> We perform a SQL query on the ``Addresses`` table whith a where clause based on the ``addressId`` of the given customer.
 <5> Finaly, we map the ``AddressRecord`` to an ``AddressModel`` using the previously define model mapper.
 
 We can now run our query again, and it returns the address data, for the customers having an address in the database.
 
-=== Fetching the cusomer's accounts
+=== Fetching the customer's accounts
 
 Similarly, if we test a query returning the customer's accounts data, such as this one
 
@@ -322,9 +543,9 @@ query {
 }
 ----
 
-We get an error, because the GraphQL model defines the ``accounts`` attribute as being "non null" and the current implementation returns null.
+We get an error, because the GraphQL model defines the ``accounts`` attribute as being "non null" and the current implementation returns ``null``.
 
-To fix this, we define a new @SchemaMapping of the ``accounts`` attribute.
+To fix this, we define a new @SchemaMapping for the ``accounts`` attribute.
 
 [source,java]
 .CustomerController.java
@@ -336,7 +557,7 @@ List<AccountModel> accounts(CustomerModel customer) {
             .fetch()
             .stream()
             .map(AccountModelMapper::mapAccountRecordToModel)
-            .collect(Collectors.toList());
+            .toList();
 }
 ----
 
@@ -345,13 +566,136 @@ List<AccountModel> accounts(CustomerModel customer) {
 Here, the code will never return null, as it will return an empty list if no account is found.
 ====
 
-Now, if we execute the query again, we get the list of accounts for each customers.
+Now, if we execute the query again, we get the list of accounts for each customer.
+
+=== Adding filtering (using JooQ)
+
+Now let's add some filtering to filter the customer's by their names:
+
+[source, graphql]
+.demo.graphqls
+----
+type Query {
+  customers(filter: CustomerPredicate): [Customer] <1>
+}
+
+input CustomerPredicate { <2>
+    firstName: StringPredicate
+    lastName: StringPredicate
+}
+
+input StringPredicate { <3>
+    is: String
+    isNot: String
+    contains: String
+    startsWith: String
+    endsWith: String
+    isOneOf: [String]
+}
+----
+<1> Any attribute in a GraphQL schema can declare input parameters. We use it to pass an optional ``filter`` parameter
+<2> The ``CustomerPredicate`` is an *input* type in GraphQL, it declares the different filter input we will accept for filtering our customers
+<3> We use a generic predicate on Strings
+
+Let's add Java classes to map these new types in our model package :
+
+[source,java]
+.CustomerPredicate.java
+----
+public record CustomerPredicate(
+        StringPredicate firstName,
+        StringPredicate lastName) {
+}
+----
+
+[source,java]
+.StringPredicate.java
+----
+public record StringPredicate(
+        String is,
+        String isNot,
+        List<String> isOneOf,
+        String contains,
+        String startsWith,
+        String endsWith) {
+        }
+----
+
+Now, we can modify our ``CustomerController`` to use the filter.
+
+[source,java]
+.CustomerController.java
+----
+@QueryMapping
+List<CustomerModel> customers(@Argument CustomerPredicate filter) { <1>
+    @NotNull SelectJoinStep<Record> query = dslContext.select(CUSTOMERS.asterisk())
+            .from(CUSTOMERS); <2>
+    if (filter != null) {
+        filter.applyOn(query); <3>
+    }
+    return query
+            .fetch()
+            .stream()
+            .map(CustomerModelMapper::mapCustomerRecordToModel)
+            .collect(toList());
+}
+----
+<1> The GraphQL parameter is passed to the method, using the @Argument annotation
+<2> We split the creation of the query, to be able to add the filter later on
+<3> If a filter is provided, we apply the filter on the query, using the ``applyOn`` method.
+
+Then we use JooQ to apply the filter on the query.
+
+[source,java]
+.CustomerPredicate.java
+----
+public SelectJoinStep<Record> applyOn(SelectJoinStep<Record> query) {
+    ifNonNull(firstName, firstName -> query.where(firstName.conditions(CUSTOMERS.FIRST_NAME))); <1>
+    ifNonNull(lastName, lastName -> query.where(lastName.conditions(CUSTOMERS.LAST_NAME)));
+    return query; <1>
+}
+
+----
+<1> If the filter parameter is provided, we apply the corresponding condition on the query, using JooQ ``where`` method.
+
+The actual conditions being provided by our generic ``StringPredicate`` class.
+
+[source,java]
+.StringPredicate.java
+----
+public List<Condition> conditions(TableField field) {
+    return Stream.of(
+                    mapIfNonNull(is, is -> field.eq(is)),
+                    mapIfNonNull(isNot, isNot -> field.ne(isNot)),
+                    mapIfNonNull(startsWith, startsWith -> field.startsWith(startsWith)),
+                    mapIfNonNull(endsWith, endsWith -> field.endsWith(endsWith)),
+                    mapIfNonNull(contains, contains -> field.contains(contains)),
+                    mapIfNonNull(isOneOf, isOneOf -> field.in(isOneOf)))
+            .filter(Objects::nonNull)
+            .toList();
+}
+----
+
+Now, we can try our filter using different queries such as :
+
+[source, graphql]
+.query
+----
+query {
+  customers(filter: {
+    firstName: {isOneOf: ["Dane", "Maura"]}
+  }) {
+    firstName
+    lastName
+  }
+}
+----
 
 === Compose data coming from another backend
 
-Now, let's add another attribute to illustrate how easy it is to combine multiple backends to expose a single data model through GraphQL.
+Now, let's add another attribute to illustrate how easy it is to combine multiple backends and expose their data as a single data model through GraphQL.
 
-We add a ``greeting`` argument to the customer.
+We add a ``greeting`` argument to our customer.
 
 [source, graphql]
 .demo.graphqls
@@ -361,10 +705,10 @@ type Customer {
 }
 ----
 
-And we implement it on the ``CustomerController`` using our OpenAIService :
+And we implement it using a ``CustomerGreetingController`` and our OpenAIService :
 
 [source,java]
-.CustomerController.java
+.CustomerGreetingController.java
 ----
     @SchemaMapping(typeName = "Customer")
     String greeting(CustomerModel customer, DataFetchingEnvironment env) {
@@ -407,21 +751,398 @@ query {
 
 A typical performance issues when using REST services are :
 
-- over fetching
-- under fetching
-- the query N + 1 issue
+- *over fetching* : the available service might return some data that the consumer doesn't need
+- *under fetching* : the available service might not return all the required data, implying that the consumer need to call other services to get the required data.
+- the *query N + 1 issue* : is actually a consequence of under-fetching leading to the explosion of the number of service calls.
 
-// TODO elaborate and give a digram
+For example, in our demo, if a consumer wants to get the customers with their address, accounts and greeting message, the sequence of calls will often be something like :
 
-GraphQL allow to get all the required data in a single roundtrip, which solves these issues, as the consuler get
+image::perf-rest.png[]
+
+This could lead to :
+
+- 1 Query to get "N" customers
+- N Queries to get each customer's address
+- N Queries to get each customer's accounts
+- N Queries to get each customer's greeting message
+
+
+GraphQL allow to get all the required data in a single roundtrip, which solves these issues, as the consumer get
 
 - only the required data,
 - all the required data,
 - in a single roundtrip
 
-However, the query N + 1 issue did not disapear, as it is still present in the backend access to the DB or other backends used to get the data.
+image::perf-graphql.png[]
 
-We can clearly see it in our service logs, or by using monitoring tools such as
+However, the query N + 1 issue did not really disappear, as it is still present in the backend access to the DB or other backends used to get the data.
 
-// TODO JooQ configuration to add latency ?
+image::perf-graphql-impl.png[]
 
+So, let's see how we can address this and improve the GraphQL performance.
+
+=== Performance optimisations using JooQ
+
+JooQ is a perfect match for GraphQL, as it allows to build SQL queries dynamically, based on the GraphQL query. This will be very useful to optimise our service.
+
+==== Optimising the address query
+
+Let's start by optimising the address query. Instead of querying the address table for each customer, we can use an SQL join to get all the addresses in a single query.
+
+[source,java]
+.CustomerController.java
+----
+@QueryMapping
+List<CustomerModel> customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) { <1>
+    SelectSelectStep<Record> select = dslContext.select(CUSTOMERS.asterisk());
+    if (selectionSet.contains("address")) { <2>
+        select.select(ADDRESSES.asterisk());
+    }
+    SelectJoinStep<Record> query = select.from(CUSTOMERS);
+    if (selectionSet.contains("address")) { <3>
+        query.leftJoin(ADDRESSES).on(ADDRESSES.ID.eq(CUSTOMERS.ADDRESS_ID));
+    }
+    if (filter != null) {
+        filter.applyOn(query);
+    }
+    return query
+            .fetch()
+            .stream()
+            .map(CustomerModelMapper::mapCustomerRecordToModel)
+            .toList();
+}
+----
+<1> We can inject the ``DataFetchingFieldSelectionSet`` in the method, to get the list of fields requested in the GraphQL query.
+<2> If the ``address`` field is requested, we add the address fields to the select clause of the query.
+<3> If the ``address`` field is requested, we add a join to the address table.
+
+We can now test our query again, and we see the executed query is using a join if the ``address`` field are requested (see the JooQ Logs to see the details of the executed SQL queries).
+
+We still need to modify the Model and the mapping to take into account the new address fields.
+
+[source,java]
+.CustomerModel.java
+----
+public record CustomerModel(
+        String id,
+        String firstName,
+        String lastName,
+        AddressModel address) { <1>
+}
+----
+<1> The ``address`` attribute is now an ``AddressModel`` so it will be mapped to the address fields. We do not need anymore to keep the ``addressId`` as it was only used to create the SQL query to get the address later on.
+
+[source,java]
+.CustomerModelMapper.java
+----
+    public static CustomerModel mapCustomerRecordToModel(Record record) {
+        if (record == null) {
+            return null;
+        }
+
+        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES));
+
+        return new CustomerModel(
+                customerRecord.getId(),
+                customerRecord.getFirstName(),
+                customerRecord.getLastName(),
+                addressModel,
+                accounts
+        );
+    }
+
+----
+<1> We map the address fields to an ``AddressModel`` using the ``AddressModelMapper``.
+<2> We pass the ``AddressModel`` to the ``CustomerModel`` constructor.
+
+We can now test our query again, to see if the address data is returned.
+
+But we get an error, because when there is no address, the address fields returned by the query are ``null``, and we defined them as non-null in the GraphQL schema.
+
+Let's fix this.
+
+[source,java]
+.AddressModelMapper.java
+----
+    public static AddressModel mapAddressRecordToModel(Record record) {
+        if (record == null) {
+            return null;
+        }
+        AddressesRecord addressRecord = record.into(ADDRESSES);
+        if (addressRecord.getId() == null) { <1>
+            return null;
+        }
+        return new AddressModel(
+                addressRecord.getStreetNumber(),
+                addressRecord.getStreetName(),
+                addressRecord.getZipCode(),
+                addressRecord.getCity(),
+                addressRecord.getCountry()
+        );
+    }
+----
+<1> We check if the address id is null, and if it is the case, we return null.
+
+We can now test our query again, and we see the address data is returned, and we execute only one SQL query.
+
+==== Optimising the accounts query
+
+Now, let's optimise the accounts query. But here, it is a little different as the relation is one-to-many, so we cannot use a join like for the address.
+
+JooQ has a solution for this, using the ``multiset`` feature.
+
+[source,java]
+.CustomerController.java
+----
+@QueryMapping
+List<CustomerModel> customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) {
+    SelectSelectStep<Record> select = dslContext.select(CUSTOMERS.asterisk());
+    if (selectionSet.contains("address")) {
+        select = select.select(ADDRESSES.asterisk());
+    }
+    if (selectionSet.contains("accounts")) { <1>
+        select = select.select(
+                DSL.multiset( <2>
+                        dslContext
+                                .selectFrom(ACCOUNTS)
+                                .where(ACCOUNTS.CUSTOMER_ID.eq(CUSTOMERS.ID))) <3>
+                        .as("Accounts_Multiset")); <4>
+    }
+    ...
+}
+----
+<1> If the ``accounts`` field is requested, we add a _multiset_ field to the select clause of the query.
+<2> The ``multiset`` feature of JooQ allows to create a sub-query that will return a list of accounts for each customer and store it in the result as a single (json) field
+<3> We create the sub-query, using the ``dslContext``.
+<4> We give a name to the multiset field, that will be used to map the result to a list of ``AccountModel``.
+
+If we run our query and look at the logs, we see that JooQ format the list of accounts as a JSON array.
+
+[source]
+.log
+----
++----+----------+----------+-----------+--------------------------------------------------+
+|id  |first_name|address_id|last_name  |Accounts_Multiset                                 |
++----+----------+----------+-----------+--------------------------------------------------+
+|0   |Season    |0         |Kling      |[(0, MR4397602666149964536457958, -39681.0, KID...|
+|1   |Maura     |0         |Marks      |[(3, KW52VCGU0Cp7MFCZ0Di10PUGgTfUCp, 421570.0, ...|
+|2   |Perry     |{null}    |Cruickshank|[(4, FR2497686504425I144umb2YJ34, 442239.0, MRU...|
+|3   |Dane      |{null}    |Jaskolski  |[(6, SV42IOXV33200864928287361387, 624348.0, PY...|
+|4   |Charisse  |2         |Braun      |[(7, IQ39INEQ957796527837825, 753317.0, SLL, 4)]  |
++----+----------+----------+-----------+--------------------------------------------------+
+----
+
+We can now adapt the ``CustomerModel`` to include the list of accounts.
+
+[source,java]
+.CustomerModel.java
+----
+public record CustomerModel(
+        String id,
+        String firstName,
+        String lastName,
+        AddressModel address,
+        List<AccountModel> accounts) <1>
+----
+<1> We add the ``accounts`` attribute to the ``CustomerModel``.
+
+And we can now adapt the mapping to take into account the new accounts fields.
+
+[source,java]
+.CustomerModelMapper.java
+----
+    public static CustomerModel mapCustomerRecordToModel(Record record) {
+        if (record == null) {
+            return null;
+        }
+
+        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES));
+
+        List<AccountModel> accounts = Collections.emptyList();
+        if (record.field("Accounts_Multiset") != null) {
+            accounts = AccountModelMapper.mapAccountRecordToModel((Result<Record>) record.get("Accounts_Multiset")); <1>
+        }
+
+        return new CustomerModel(
+                record.get(CUSTOMERS.ID),
+                record.get(CUSTOMERS.FIRST_NAME),
+                record.get(CUSTOMERS.LAST_NAME),
+                addressModel,
+                accounts <2>
+        );
+    }
+----
+<1> If there is a sub-query result, we get it by its field name, cast it to a ``Result<Record>`` and pass it to the ``AccountModelMapper`` to get the list of accounts.
+<2> We pass the ``accounts`` to the ``CustomerModel`` constructor.
+
+[source,java]
+.AccountModelMapper.java
+----
+public static List<AccountModel> mapAccountRecordToModel(Result<Record> accountsMultiset) {
+    return accountsMultiset.stream() <1>
+            .map(AccountModelMapper::mapAccountRecordToModel) <2>
+            .toList();
+}
+----
+<1> We stream the result of the sub-query
+<2> And we map each ``AccountRecord`` to an ``AccountModel``.
+
+We can now test our query again, and we see the accounts data is returned, and we still execute only one SQL query !
+
+==== Some refactoring
+
+To get cleaner code, we can now refactor the code a little bit.
+
+Let's come back to our CustomerController, and extract the query creation in a separate methods to make the code more readable.
+
+[source,java]
+.filename.java
+----
+    @QueryMapping
+    List<CustomerModel> customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) {
+        SelectSelectStep<Record> select = selectStep(selectionSet); <1>
+        SelectJoinStep<Record> query = joinStep(selectionSet, select); <2>
+        query = whereStep(filter, query); <3>
+        return executeAndMap(query); <4>
+    }
+----
+<1> Select the fields to be returned in the query, depending on the selection set
+<2> Create the join step, depending on the selection set
+<3> Apply the filter, if any
+<4> Fetch the results and map them to the ``CustomerModel``
+
+=== Optimising the greeting query using Dataloaders
+
+Now, let's optimise the greeting query.
+
+As we have seen, the greeting query is calling the OpenAI service for each customer, which is not optimal. The idea here would be to *_batch_* the calls to the OpenAI service, to get the greeting messages for all the customers in a single call.
+
+[source]
+.log
+----
+Call openAI with name: Season
+Call openAI with name: Maura
+Call openAI with name: Dane <1>
+Call openAI with name: Charisse
+Call openAI with name: Rocco
+Call openAI with name: Leon
+Call openAI with name: Hugh
+Call openAI with name: Frances
+Call openAI with name: Lawana
+Call openAI with name: Dane <1>
+----
+<1> Also note here that there can be multiple calls with the same input, which is usually also a potential performance issue.
+
+
+For this, we will use the Dataloader mechanism, that is a common pattern in GraphQL.
+
+So let's change the @SchemaMapping for the greeting attribute :
+
+[source,java]
+.CustomerGreetingController.java
+----
+@SchemaMapping(typeName = "Customer")
+CompletableFuture<String> greeting(CustomerModel customer, DataFetchingEnvironment env) { <1>
+    DataLoader<String, String> dataLoader = env.getDataLoader(GREETING_DATALOADER); <2>
+    return dataLoader.load(customer.firstName()); <3>
+}
+----
+<1> The mapping returns a ``CompletableFuture<String>``. When this mapping will be called, it doesn't have to answer immediately. Instead it will delegate to an asynchronous dataloader.
+<2> We get the dataloader from the ``DataFetchingEnvironment`` using its name.
+<3> And we call the dataloader to get a completable future of the greeting for the current customer.
+
+Now, let's create the dataloader.
+
+
+
+[source,java]
+.CustomerGreetingDataloader.java
+----
+@Service
+@RequiredArgsConstructor
+public class CustomerGreetingDataloader {
+    public static final String GREETING_DATALOADER = "GREETING_DATALOADER";
+
+    private final OpenAiService openAiService;
+    private final BatchLoaderRegistry batchLoaderRegistry;
+
+    @PostConstruct
+    void initDataLoader() { <1>
+        batchLoaderRegistry.forTypePair(String.class, String.class)
+                .withName(GREETING_DATALOADER) <2>
+                .withOptions(newOptions()
+                        .setMaxBatchSize(5) <3>
+                )
+                .registerBatchLoader((List<String> names, BatchLoaderEnvironment env)
+                        -> generateGreetings(names)); <4>
+    }
+
+    private Flux<String> generateGreetings(List<String> names) { <5>
+        CompletableFuture<List<String>> futureList =
+                supplyAsync(() -> openAiService.greetings(names), <6>
+                        newVirtualThreadPerTaskExecutor()); <7>
+        return mapToFlux(futureList); <8>
+    }
+----
+<1> At startup, we initialize the dataloader, by registering it in the ``batchLoaderRegistry``.
+<2> We give it a name
+<3> And we set the maximum batch size, to limit the number data that will be processed by the dataloader in a single call.
+<4> We provide a function that will be called by the dataloader when it is triggered.
+<5> First note that the function returns a ``Flux<String>`` and not a list of Strings (greetings). The GraphQL dataloaders, in addition to process data by "batch", also process data asynchronously, and the Spring layer uses the reactive ``Flux`` and ``Mono`` for this.
+<6> We use a ``CompletableFuture`` to call the OpenAI service asynchronously, giving a list of names as input.
+<7> Also note here that we use a ``VirtualThreadPerTaskExecutor`` to benefit from Java 21 Virtual threads.
+<8> Finally, we convert the ``CompletableFuture`` to a ``Flux``.
+
+We can now test our query again, and we see the greeting data is returned, and we execute only two calls to the OpenAI service.
+
+[source]
+.log
+----
+Call openAI with names: [Season, Maura, Dane, Charisse, Rocco] on thread VirtualThread[#66]/runnable@ForkJoinPool-1-worker-1 <1>
+Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#72]/runnable@ForkJoinPool-1-worker-2 <1>
+----
+<1> We have a batch limit of 5, and we have 10 customers in DB. So the first call contains 5 names.
+<2> Note that the second call contains only 4 names. This is because the dataloader, by default, will _cache_ the values, it does not call the API twice with the same input ("Dane" in our case).
+
+After all these optimisations we successfully optimised the performance of our GraphQL service:
+
+image::perf-optimized-graphql.png[]
+
+
+== Conclusions
+
+image::grahpql_logo_inner.png[width=400,align="center"]
+
+GraphQL and Spring for GraphqQL offer a very  *flexible* approach to implement data access services.
+
+Optimising such a service *performance* can be done using the *Dataloader* mechanism, allowing to address the Query N + 1 issue :
+
+* It "*Batches*" backend calls
+* It "*Caches*" backend calls for same input
+* It executes *Asynchronously* allowing parallel calls and the use Java 21 Virtual Threads.
+
+
+image::jooq-logo-black.png[width=200,align="center"]
+
+*JooQ Dynamic queries* are a perfect match for GraphQL implementation! It allows to
+
+- *Join* tables when needed
+- Select a "tree of date" using the *Multiset* feature
+- Select *only the required fields*
+
+
+[grid= none, frame = non]
+[cols="^.^a,.^5a"]
+|===
+|
+image::d-knuth.png[]
+|
+[quote,D. Knuth, ]
+____
+We _should_ forget about small efficiencies, say about 97% of the time: *premature optimization is the root of all evil*.
+
+Yet we _should not pass up our opportunities in that critical 3%_.
+____
+|===
+
+As suggested by D. Knuth, we should not always try to optimise the code from the start as it complexifies it. However, there is a good opportunity of performance improvement applying the strategies explained in this demo.

@@ -1,0 +1,32 @@
+@startuml
+
+participant consumer #LightBlue
+participant GraphQLService #LightGreen
+
+consumer -> GraphQLService : graphQL query
+
+
+database database #lightyellow
+
+
+GraphQLService -> database: get customers
+
+loop #pink for each customer
+   GraphQLService -> database: get address
+end
+note right: Query N +1 issue
+
+loop #pink for each customer
+   GraphQLService -> database: get accounts
+end
+note right: Query N +1 issue
+
+loop #pink for each customer
+   GraphQLService -> OpenAI : get greeting
+end
+note right: Query N +1 issue
+
+
+GraphQLService --> consumer : return all data (and only the data requested)\nin a single roundtrip
+
+@enduml

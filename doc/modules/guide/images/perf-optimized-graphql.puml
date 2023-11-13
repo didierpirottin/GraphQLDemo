@@ -1,8 +1,15 @@
 @startuml
+
+participant consumer #LightBlue
+participant GraphQLService #LightGreen
+
 consumer -> GraphQLService : graphQL query
 
 
-database database
+database database #lightyellow
+
+
+
 
 GraphQLService -> database: get customers with joined address and accounts
 
