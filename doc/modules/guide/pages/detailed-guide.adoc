@@ -446,7 +446,7 @@ public static CustomerModel mapCustomerRecordToModel(Record record) {
         return null;
     }
     CustomersRecord customerRecord = record.into(CUSTOMERS); <1>
-        return new CustomerModel(
+        return new CustomerModel( <2>
                 customerRecord.getId(),
                 customerRecord.getFirstName(),
                 customerRecord.getLastName(),
@@ -840,9 +840,9 @@ public record CustomerModel(
             return null;
         }
 
-        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES));
+        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES)); <1>
 
-        return new CustomerModel(
+        return new CustomerModel( <2>
                 customerRecord.getId(),
                 customerRecord.getFirstName(),
                 customerRecord.getLastName(),
@@ -1099,7 +1099,7 @@ We can now test our query again, and we see the greeting data is returned, and w
 .log
 ----
 Call openAI with names: [Season, Maura, Dane, Charisse, Rocco] on thread VirtualThread[#66]/runnable@ForkJoinPool-1-worker-1 <1>
-Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#72]/runnable@ForkJoinPool-1-worker-2 <1>
+Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#72]/runnable@ForkJoinPool-1-worker-2 <2>
 ----
 <1> We have a batch limit of 5, and we have 10 customers in DB. So the first call contains 5 names.
 <2> Note that the second call contains only 4 names. This is because the dataloader, by default, will _cache_ the values, it does not call the API twice with the same input ("Dane" in our case).

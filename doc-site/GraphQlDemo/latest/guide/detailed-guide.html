@@ -11,37 +11,8 @@
 <header class="header">
   <nav class="navbar">
     <div class="navbar-brand">
-      <a class="navbar-item" href="../../..">Spring for GraphQL with JooQ to access database</a>
-      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </div>
-    <div id="topbar-nav" class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item" href="#">Home</a>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="#">Products</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="#">Product A</a>
-            <a class="navbar-item" href="#">Product B</a>
-            <a class="navbar-item" href="#">Product C</a>
-          </div>
-        </div>
-        <div class="navbar-item has-dropdown is-hoverable">
-          <a class="navbar-link" href="#">Services</a>
-          <div class="navbar-dropdown">
-            <a class="navbar-item" href="#">Service A</a>
-            <a class="navbar-item" href="#">Service B</a>
-            <a class="navbar-item" href="#">Service C</a>
-          </div>
-        </div>
-        <div class="navbar-item">
-          <span class="control">
-            <a class="button is-primary" href="#">Download</a>
-          </span>
-        </div>
+      <div class="navbar-item">
+        Spring for GraphQL - Using JooQ for Database Access - Performance Tuning
       </div>
     </div>
   </nav>
@@ -782,7 +753,7 @@ public class CustomerController {
         return null;
     }
     CustomersRecord customerRecord = record.into(CUSTOMERS); <i class="conum" data-value="1"></i><b>(1)</b>
-        return new CustomerModel(
+        return new CustomerModel( <i class="conum" data-value="2"></i><b>(2)</b>
                 customerRecord.getId(),
                 customerRecord.getFirstName(),
                 customerRecord.getLastName(),
@@ -1348,9 +1319,9 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
             return null;
         }
 
-        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES));
+        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES)); <i class="conum" data-value="1"></i><b>(1)</b>
 
-        return new CustomerModel(
+        return new CustomerModel( <i class="conum" data-value="2"></i><b>(2)</b>
                 customerRecord.getId(),
                 customerRecord.getFirstName(),
                 customerRecord.getLastName(),
@@ -1749,7 +1720,7 @@ public class CustomerGreetingDataloader {
 <div class="title">log</div>
 <div class="content">
 <pre class="highlightjs highlight"><code>Call openAI with names: [Season, Maura, Dane, Charisse, Rocco] on thread VirtualThread[#66]/runnable@ForkJoinPool-1-worker-1 <i class="conum" data-value="1"></i><b>(1)</b>
-Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#72]/runnable@ForkJoinPool-1-worker-2 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#72]/runnable@ForkJoinPool-1-worker-2 <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
 </div>
 </div>
 <div class="colist arabic">
