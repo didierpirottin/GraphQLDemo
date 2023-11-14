@@ -2,13 +2,11 @@
 
 == Intro
 
-Welcome to this presentation about GraphQL and how to implement a GraphQL service in Java using Spring for GraphQL and JooQ for database access.
+Welcome to this detailed guide about GraphQL and how to implement a GraphQL service in Java using Spring for GraphQL and JooQ for database access.
 
-This is not a basic introduction to GraphQL, but for those of you who do not know GraphQL much, don't worry, we will start with a basic hello world style example, and we will introduce more advanced features progressively.
+We will start with a basic hello world style example, and we will introduce more advanced features progressively. However, this is not a detailed guide about GraphQL, as we will more focus on how to implement it using Spring Boot and JooQ.
 
 The main objective is to highlight some important attention point in the implementation, more specifically related to potential performance issues, and to address them.
-
-This talk is mainly a live coding presentation, so there will be very few slides.
 
 == Resources
 
