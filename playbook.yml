@@ -1,0 +1,15 @@
+site:
+  title: Spring for GraphQL with JooQ to access database
+  start_page: GraphQlDemo:guide:detailed-guide.adoc
+content:
+  sources:
+    - url: ./
+      start_path: doc
+      branches: HEAD
+output:
+    clean: true
+    dir: ./doc-site
+ui:
+  bundle:
+    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+    snapshot: true

@@ -1,0 +1,18 @@
+@startuml
+consumer -> service : get customers
+
+loop #pink for each customer
+   consumer -> service: get address
+end
+note right: Query N +1 issue
+
+loop #pink for each customer
+   consumer -> service: get accounts
+end
+note right: Query N +1 issue
+
+loop #pink for each customer
+   consumer -> service: get greeting
+end
+note right: Query N +1 issue
+@enduml

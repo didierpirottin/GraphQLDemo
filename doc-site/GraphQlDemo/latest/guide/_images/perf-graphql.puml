@@ -1,0 +1,9 @@
+@startuml
+
+participant consumer #LightBlue
+participant GraphQLService #LightGreen
+
+consumer -> GraphQLService : graphQL query
+GraphQLService --> consumer : return all data (and only the data requested)\n in a single roundtrip
+
+@enduml

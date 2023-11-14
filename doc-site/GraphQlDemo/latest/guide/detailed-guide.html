@@ -1,0 +1,1870 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Detailed Step-by-Step Guide :: Spring for GraphQL with JooQ to access database</title>
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../..">Spring for GraphQL with JooQ to access database</a>
+      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="GraphQlDemo" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">GraphQL Demo</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="detailed-guide.html">GraphQL Demo</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="detailed-guide.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="detailed-guide.html" class="home-link is-current"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+<div class="edit-this-page"><a href="file:///C:/Users/didie/IdeaProjects/GraphQLDemo/doc/modules/guide/pages/detailed-guide.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Detailed Step-by-Step Guide</h1>
+<div class="sect1">
+<h2 id="_intro"><a class="anchor" href="#_intro"></a>Intro</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Welcome to this presentation about GraphQL and how to implement a GraphQL service in Java using Spring for GraphQL and JooQ for database access.</p>
+</div>
+<div class="paragraph">
+<p>This is not a basic introduction to GraphQL, but for those of you who do not know GraphQL much, don&#8217;t worry, we will start with a basic hello world style example, and we will introduce more advanced features progressively.</p>
+</div>
+<div class="paragraph">
+<p>The main objective is to highlight some important attention point in the implementation, more specifically related to potential performance issues, and to address them.</p>
+</div>
+<div class="paragraph">
+<p>This talk is mainly a live coding presentation, so there will be very few slides.</p>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_resources"><a class="anchor" href="#_resources"></a>Resources</h2>
+<div class="sectionbody">
+<div class="openblock col3-l xx-small">
+<div class="content">
+<div class="ulist">
+<div class="title">References</div>
+<ul>
+<li>
+<p><a href="https://graphql.org/">GraphQL</a></p>
+</li>
+<li>
+<p><a href="https://spring.io/projects/spring-graphql">Spring for GraphQL</a></p>
+</li>
+<li>
+<p><a href="https://www.jooq.org/">JooQ</a></p>
+</li>
+<li>
+<p><a href="https://github.com/langchain4j/langchain4j">LangChain4J</a></p>
+</li>
+<li>
+<p><a href="https://plugins.jetbrains.com/plugin/8097-graphql">IntelliJ GraphQL Plugin</a></p>
+</li>
+<li>
+<p><a href="https://github.com/graphql-kit/graphql-voyager">Voyager</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="openblock col3-c xx-small">
+<div class="content">
+<div class="ulist">
+<div class="title">Sources</div>
+<ul>
+<li>
+<p><a href="https://github.com/didierpirottin/graphql-jooq-perf">Source code</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">documentation</div>
+<ul>
+<li>
+<p><a href="https://github.com/didierpirottin/graphql-jooq-perf">Slides</a></p>
+</li>
+<li>
+<p><a href="https://github.com/didierpirottin/graphql-jooq-perf">Detailed step-by-step guide</a></p>
+</li>
+</ul>
+</div>
+<div class="ulist">
+<div class="title">Contact</div>
+<ul>
+<li>
+<p>Email: <a href="mailto:didier.pirottin@gmail.com">didier.pirottin@gmail.com</a></p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="openblock col3-r small">
+<div class="content">
+<div class="paragraph">
+<p><span class="image"><img src="_images/qr-code.png" alt="qr code" width="160"></span>
+<span class="emphasize"><strong><a href="http://bit.ly/3SEtuWb" class="bare">http://bit.ly/3SEtuWb</a></strong></span></p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hello_world"><a class="anchor" href="#_hello_world"></a>Hello World</h2>
+<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_the_workspace"><a class="anchor" href="#_create_the_workspace"></a>Create the workspace</h3>
+<div class="paragraph">
+<p>So let&#8217;s start with a hello world style service.</p>
+</div>
+<div class="paragraph">
+<p>For this demo, we will start by creating a new GraphQL service, using  Spring Initialzr. You can use it from <a href="https://start.spring.io/" class="bare">https://start.spring.io/</a> or from the IntelliJ new project menu.</p>
+</div>
+<div class="paragraph">
+<p>We will use Java 21, Spring Boot 3.1.5, Maven, just a few starters for now :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Web</p>
+</li>
+<li>
+<p>GraphQL</p>
+</li>
+<li>
+<p>DevTools</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/create-project-1.png" alt="create project 1">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/create-project-2.png" alt="create project 2">
+</div>
+</div>
+<div class="paragraph">
+<p>To make it a little more interesting, we will also use the "LangChain4J" lib, so let&#8217;s add it to the dependencies in the pom file.</p>
+</div>
+<div class="listingblock">
+<div class="title">pom.xml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;dev.langchain4j&lt;/groupId&gt;
+    &lt;artifactId&gt;langchain4j&lt;/artifactId&gt;
+    &lt;version&gt;0.23.0&lt;/version&gt;
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;dev.langchain4j&lt;/groupId&gt;
+    &lt;artifactId&gt;langchain4j-open-ai&lt;/artifactId&gt;
+    &lt;version&gt;0.23.0&lt;/version&gt;
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_the_graphql_schema"><a class="anchor" href="#_create_the_graphql_schema"></a>Create the GraphQL Schema</h3>
+<div class="paragraph">
+<p>Now, let&#8217;s create a GraphQL Schema file, in the <code>graphql</code> resource folder, and call it demo.</p>
+</div>
+<div class="listingblock">
+<div class="title">demo.graphql</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">type Query { <i class="conum" data-value="1"></i><b>(1)</b>
+    demo: String <i class="conum" data-value="2"></i><b>(2)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td><code>Query</code> is a special type in GraphQL, it is the entry point in the GraphQL data model.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We simply add an entry "demo" that will return a String</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_update_the_properties_file"><a class="anchor" href="#_update_the_properties_file"></a>Update the properties file</h3>
+<div class="paragraph">
+<p>Update the properties file to enable the <strong>GraphiQL</strong> endpoint and prepare the configuration url for <strong>langChain4J</strong> to call openAI later on.</p>
+</div>
+<div class="listingblock">
+<div class="title">application.properties</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>spring.graphql.graphiql.enabled=true <i class="conum" data-value="1"></i><b>(1)</b>
+demo.openai-proxy-url=http://langchain4j.dev/demo/openai/v1 <i class="conum" data-value="2"></i><b>(2)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Enable the GraphiQL endpoint</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This is the url that will be used by langChain4J to call openAI</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_run_the_app"><a class="anchor" href="#_run_the_app"></a>Run the app</h3>
+<div class="paragraph">
+<p>We just start the app now, go to the graphiql endpoint and see the default behaviour, which is returning a null for the created endpoint.</p>
+</div>
+<div class="paragraph">
+<p><em>This is the default behaviour when no controller is defined.</em></p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_create_the_controller"><a class="anchor" href="#_create_the_controller"></a>Create the Controller</h3>
+<div class="paragraph">
+<p>Now, let&#8217;s creat the "DemoController" class annotated @Controller and create a method "demo", annotated by @QueryMapping such that Spring will map any call to the demo entry point to this method.</p>
+</div>
+<div class="listingblock">
+<div class="title">DemoController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Controller <i class="conum" data-value="1"></i><b>(1)</b>
+@RequiredArgsConstructor
+public class DemoController {
+    private final OpenAiService openAiService;
+
+    @QueryMapping <i class="conum" data-value="2"></i><b>(2)</b>
+    String demo() { <i class="conum" data-value="3"></i><b>(3)</b>
+        return openAiService.demoWelcomeMessage(); <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>This is a Spring controller</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>This method will be mapped to an attribute of the <code>Query</code> type from GraphQL schema. By default, the mapped attribute will be the one corresponding to the method name.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Make sure to give a method signature that is compatible with the corresponding definition in the GraphQL schema.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Delegate to the OpenAiService to get a demo message.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here, we use <strong>LangChain4J</strong> library to get a text from openAI, using the <code>OpenAiService</code></p>
+</div>
+<div class="listingblock">
+<div class="title">OpenAiService.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public String demoWelcomeMessage() {
+    return model.generate(
+            """
+            Write a greeting message for a live coding demo talking about Spring for GraphQL.
+            The message must be short, no more than 50 words.
+            """);
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the query again will now give the answer from ChatGpt.</p>
+</div>
+<div class="listingblock">
+<div class="title">query response</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-json hljs" data-lang="json">{
+  "data": {
+    "demo": "\"Welcome to the Spring for GraphQL demo!Get ready to spring into action as we dive into the world of software development with a twist of humor. Let's break some code and have a blooming good time!\"",
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_a_more_realistic_sample_with_a_database"><a class="anchor" href="#_a_more_realistic_sample_with_a_database"></a>A more realistic sample with a Database</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now let&#8217;s give a more realistic example, with some data stored in a customer database.</p>
+</div>
+<div class="paragraph">
+<p>The database is a Postgres DB, with the following tables :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/database.png" alt="database">
+</div>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A <strong>customer</strong> table, containing customers with their first name and laste name</p>
+</li>
+<li>
+<p>An <strong>address</strong> table, containing addresses, an address could be shared by multiple customers</p>
+</li>
+<li>
+<p>And an <strong>account</strong> table, each customer could have multiple accounts.</p>
+</li>
+</ul>
+</div>
+<div class="sect2">
+<h3 id="_api_first"><a class="anchor" href="#_api_first"></a>API First</h3>
+<div class="paragraph">
+<p>GraphQL promotes the <strong>API first</strong> approach through its DSL for designing the API. So, we&#8217;ll start the implementation by specifying the API we would like to expose in the graphql schema.</p>
+</div>
+<div class="listingblock">
+<div class="title">demo.graphqls</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>type Query {
+    customers: [Customer]
+}
+
+type Customer {
+    id: ID!
+    firstName: String!
+    lastName: String!
+    address: Address
+    accounts: [Account]!
+}
+
+type Account {
+    id: ID!
+    iban: String!
+    balance: Float!
+    currency: String!
+}
+
+type Address {
+    streetNumber: String!
+    streetName: String!
+    zipCode: String!
+    city: String!
+    country: String!
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Note the following syntax in GraphQL :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><code>[&lt;typeName&gt;]</code> means this is a list of <code>&lt;typeName&gt;</code></p>
+</li>
+<li>
+<p><code>&lt;typeName&gt;!</code> means that this value will never be <code>null</code></p>
+</li>
+</ul>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_visualize_the_graphql_data_model_using_voyager"><a class="anchor" href="#_visualize_the_graphql_data_model_using_voyager"></a>Visualize the GraphQL data model using Voyager</h3>
+<div class="paragraph">
+<p>One of the advantages of the well-defined GraphQL specification is the possibility to create useful tools around it. Voyager is one these tools, let&#8217;s just create a simple html file and see how the schema we just created wan be visualised to explore the GraphQL API.</p>
+</div>
+<div class="listingblock">
+<div class="title">voyager.html</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-html hljs" data-lang="html">&lt;!doctype html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.css"
+    /&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+    &lt;script
+        src="https://cdn.jsdelivr.net/npm/graphql-voyager/dist/voyager.standalone.js"&gt;
+    &lt;/script&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+&lt;/head&gt;
+
+&lt;body&gt;
+&lt;div id="voyager"&gt;Loading...&lt;/div&gt;
+&lt;script type="module"&gt;
+    const {voyagerIntrospectionQuery: query} = GraphQLVoyager;
+    const response = await fetch(
+        'http://localhost:8082/graphql', <i class="conum" data-value="2"></i><b>(2)</b>
+        {
+            method: 'post',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({query}),
+            credentials: 'omit',
+        },
+    );
+    const introspection = await response.json();
+
+    // Render &lt;Voyager /&gt; into the body.
+    GraphQLVoyager.renderVoyager(document.getElementById('voyager'), {
+        introspection,
+    });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Include CSS and Javascript from CDN</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Configure the GraphQL endpoint</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Here is a screenshot of the Voyager UI on our basic example :</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_datasource_and_jooq_configuration"><a class="anchor" href="#_datasource_and_jooq_configuration"></a>Datasource and JooQ configuration</h3>
+<div class="paragraph">
+<p>Before implementing the API, we need to add a few dependencies to access the Postgres DB. Here, we will use <a href="https://www.jooq.org/">JooQ</a> as the database library. As we will see later on, this library is a perfect match for GraphQL.</p>
+</div>
+<div class="listingblock">
+<div class="title">pom.xml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;dependency&gt;
+    &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;
+    &lt;artifactId&gt;spring-boot-starter-jooq&lt;/artifactId&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+&lt;/dependency&gt;
+&lt;dependency&gt;
+    &lt;groupId&gt;org.postgresql&lt;/groupId&gt;
+    &lt;artifactId&gt;postgresql&lt;/artifactId&gt;
+    &lt;version&gt;42.6.0&lt;/version&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+&lt;/dependency&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>JooQ Spring Starter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>PostgreSql driver</td>
+</tr>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_jooq_code_generation"><a class="anchor" href="#_jooq_code_generation"></a>JooQ code generation</h4>
+<div class="paragraph">
+<p>As JooQ is based on <strong>code generation</strong>, from the dabase schema, we also add a <strong>JooQ maven plugin</strong> to perform the required code generation.</p>
+</div>
+<div class="listingblock">
+<div class="title">pom.xml</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-xml hljs" data-lang="xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.jooq&lt;/groupId&gt;
+    &lt;artifactId&gt;jooq-codegen-maven&lt;/artifactId&gt;
+    &lt;version&gt;3.18.6&lt;/version&gt;
+
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;jooq-codegen&lt;/id&gt;
+            &lt;phase&gt;generate-sources&lt;/phase&gt; <i class="conum" data-value="1"></i><b>(1)</b>
+            &lt;goals&gt;
+                &lt;goal&gt;generate&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+
+    &lt;configuration&gt;
+        &lt;!-- Configure the database connection here --&gt;
+        &lt;jdbc&gt; <i class="conum" data-value="2"></i><b>(2)</b>
+            &lt;driver&gt;org.postgresql.Driver&lt;/driver&gt;
+            &lt;url&gt;jdbc:postgresql://localhost:5432/graphql-demo&lt;/url&gt;
+            &lt;user&gt;demo&lt;/user&gt;
+            &lt;password&gt;demo&lt;/password&gt;
+        &lt;/jdbc&gt;
+
+        &lt;generator&gt;
+            &lt;!-- The default code generator. --&gt;
+            &lt;name&gt;org.jooq.codegen.JavaGenerator&lt;/name&gt;
+
+            &lt;database&gt; <i class="conum" data-value="3"></i><b>(3)</b>
+                &lt;!-- The database type. --&gt;
+                &lt;name&gt;org.jooq.meta.postgres.PostgresDatabase&lt;/name&gt;
+                &lt;!-- The database schema to be generated --&gt;
+                &lt;inputSchema&gt;public&lt;/inputSchema&gt;
+                &lt;!-- All elements that are generated from your schema --&gt;
+                &lt;includes&gt;.*&lt;/includes&gt;
+            &lt;/database&gt;
+
+            &lt;target&gt; <i class="conum" data-value="4"></i><b>(4)</b>
+                &lt;!-- The destination package of your generated classes (within the destination directory) --&gt;
+                &lt;packageName&gt;graphql.demo.jooq.generated&lt;/packageName&gt;
+               &lt;!-- The destination directory of your generated classes. Using Maven directory layout here --&gt;
+                &lt;directory&gt;target/generated-sources&lt;/directory&gt;
+            &lt;/target&gt;
+        &lt;/generator&gt;
+    &lt;/configuration&gt;
+&lt;/plugin&gt;</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The plugin will be executed during the <strong>code-generation</strong> phase.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>As the code generator will use the database schema data, it requires a configuration to access the database</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>This section configure what has to be generated</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>And this section configure where the code will be generated</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>See <a href="https://www.jooq.org/doc/3.18/manual/code-generation/">Code Generation</a> JooQ documentation for more details and options.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now generate the code, compiling our project using maven.</p>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Make sure the generated code is considered as source code by your IDE.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<table class="tableblock frame-non grid-none stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock">
+<div class="content">
+<img src="_images/generated-code.png" alt="generated code">
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="paragraph">
+<p>Let&#8217;s explore the generated code, it contains</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>A class per table, containing information about the table and its columns</p>
+</li>
+<li>
+<p>A <strong>"record" Class</strong> (it&#8217;s not Java records) that can be used to get data returned by SQL queries.</p>
+</li>
+</ul>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_the_exposed_model_classes"><a class="anchor" href="#_the_exposed_model_classes"></a>The exposed model classes</h3>
+<div class="paragraph">
+<p>JooQ generates classes that map the Database model.</p>
+</div>
+<div class="paragraph">
+<p>On the other hand, we need to return data that maps the GraphQL data model and most of the time, <em>there are differences between these two models</em>.</p>
+</div>
+<div class="paragraph">
+<p>A good practice is hence to <strong>decouple</strong> these two models by creating "<strong>GraphQL model classes</strong>" that are more aligned to the GraphQL data model. This is similar to the DTOs (Data Transfer Object) used in REST services.</p>
+</div>
+<div class="paragraph">
+<p>So, let&#8217;s create a CustomerModel as a simple Java record.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerModel.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record CustomerModel(
+        String id,
+        String firstName,
+        String lastName,
+        String addressId) { }</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Note here that we also define the "addressId" in this model. It is not <em>exposed</em> in the GraphQL data model, but it will be used to get the <em>exposed address</em> as we will see later on.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Similarly, we can already create the other model classes of our GraphQL schema : <code>AddressModel</code> and <code>AccountModel</code>.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_customercontroller"><a class="anchor" href="#_customercontroller"></a>CustomerController</h3>
+<div class="paragraph">
+<p>To implement the API, we will create a <code>CustomerController</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Controller
+public class CustomerController {
+    private final DSLContext dslContext; <i class="conum" data-value="1"></i><b>(1)</b>
+
+    public CustomerController(DSLContext dslContext) {
+        this.dslContext = dslContext;
+    }
+
+    @QueryMapping <i class="conum" data-value="2"></i><b>(2)</b>
+    List&lt;CustomerModel&gt; customers() { <i class="conum" data-value="3"></i><b>(3)</b>
+        return dslContext.select(CUSTOMERS.asterisk()) <i class="conum" data-value="4"></i><b>(4)</b>
+                .from(CUSTOMERS)
+                .fetch()
+                .stream()
+                .map(CustomerModelMapper::mapCustomerRecordToModel) <i class="conum" data-value="5"></i><b>(5)</b>
+                .toList();
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The dslContext is the JooQ object that will be used to create SQL queries</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>@QueryMapping</code> Spring annotation indicates that this method will be mapped to the corresponding GraphQL attribute on the <code>Query</code> type</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>The method signature must be aligned with the corresponding GraphQL definition</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Here, we use the <code>dslContext</code> to create the query on the Customer table and fetch the results</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Then we map the returned <code>CustomerRecord</code> to the <code>CustomerModel</code> and return the resulting list.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To map the <code>CustomerRecord</code> to a <code>CustomerModel</code>, we define a separate helper class <code>CustomerModelMapper</code>.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerModelMapper.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static CustomerModel mapCustomerRecordToModel(Record record) {
+    if (record == null) {
+        return null;
+    }
+    CustomersRecord customerRecord = record.into(CUSTOMERS); <i class="conum" data-value="1"></i><b>(1)</b>
+        return new CustomerModel(
+                customerRecord.getId(),
+                customerRecord.getFirstName(),
+                customerRecord.getLastName(),
+                customerRecord.getAddressId()
+        );
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We use the <code>into</code> method to map the generic record to a <code>CustomerRecord</code>, this is the specific record classes generated by JooQ for each table.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We map the JooQ <code>CustomerRecord</code> to our model <code>CustomerModel</code>.</td>
+</tr>
+</table>
+</div>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-tip" title="Tip"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>In a similar way, we can already implement <code>AddressModelMapper</code> and <code>AccountModelMapper</code></p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now test our service with a simple query :</p>
+</div>
+<div class="listingblock">
+<div class="title">query</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
+  customers {
+    firstName
+    lastName
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fetching_the_customers_address"><a class="anchor" href="#_fetching_the_customers_address"></a>Fetching the customer&#8217;s address</h3>
+<div class="paragraph">
+<p>Now, if we try to get customer address data, such as in this query :</p>
+</div>
+<div class="listingblock">
+<div class="title">query</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
+  customers {
+    firstName
+    lastName
+    address {
+      streetNumber
+      streetName
+      zipCode
+      city
+      country
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>All the returned addresses are <code>null</code> by default.</p>
+</div>
+<div class="paragraph">
+<p>So let&#8217;s add an <code>@SchemaMapping</code> to the CustomerController :</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@SchemaMapping(typeName = "Customer") <i class="conum" data-value="1"></i><b>(1)</b>
+AddressModel address(CustomerModel customer) { <i class="conum" data-value="2"></i><b>(2)</b>
+    if (customer.addressId() == null) { <i class="conum" data-value="3"></i><b>(3)</b>
+        return null;
+    }
+    return dslContext.selectFrom(ADDRESSES)
+            .where(ADDRESSES.ID.eq(customer.addressId())) <i class="conum" data-value="4"></i><b>(4)</b>
+            .fetchOne()
+            .map(AddressModelMapper::mapAddressRecordToModel); <i class="conum" data-value="5"></i><b>(5)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>@SchemaMapping</code> annotation maps the attributes of a given GraphQL type, passed as argument in the annotation.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The name of the mapped attribute is the method name, by default. Also note here that the current <code>CustomerModel</code> is injected in the method called by Spring.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>If the customer does not have an <code>addressId</code>, we simply return null, as it has no known address</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We perform a SQL query on the <code>Addresses</code> table whith a where clause based on the <code>addressId</code> of the given customer.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>Finaly, we map the <code>AddressRecord</code> to an <code>AddressModel</code> using the previously define model mapper.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now run our query again, and it returns the address data, for the customers having an address in the database.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_fetching_the_customers_accounts"><a class="anchor" href="#_fetching_the_customers_accounts"></a>Fetching the customer&#8217;s accounts</h3>
+<div class="paragraph">
+<p>Similarly, if we test a query returning the customer&#8217;s accounts data, such as this one</p>
+</div>
+<div class="listingblock">
+<div class="title">query</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
+  customers {
+    firstName
+    lastName
+    accounts {
+      iban
+      balance
+      currency
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We get an error, because the GraphQL model defines the <code>accounts</code> attribute as being "non null" and the current implementation returns <code>null</code>.</p>
+</div>
+<div class="paragraph">
+<p>To fix this, we define a new @SchemaMapping for the <code>accounts</code> attribute.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@SchemaMapping(typeName = "Customer")
+List&lt;AccountModel&gt; accounts(CustomerModel customer) {
+    return dslContext.selectFrom(ACCOUNTS)
+            .where(ACCOUNTS.CUSTOMER_ID.eq(customer.id()))
+            .fetch()
+            .stream()
+            .map(AccountModelMapper::mapAccountRecordToModel)
+            .toList();
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock note">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-note" title="Note"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Here, the code will never return null, as it will return an empty list if no account is found.</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, if we execute the query again, we get the list of accounts for each customer.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_adding_filtering_using_jooq"><a class="anchor" href="#_adding_filtering_using_jooq"></a>Adding filtering (using JooQ)</h3>
+<div class="paragraph">
+<p>Now let&#8217;s add some filtering to filter the customer&#8217;s by their names:</p>
+</div>
+<div class="listingblock">
+<div class="title">demo.graphqls</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">type Query {
+  customers(filter: CustomerPredicate): [Customer] <i class="conum" data-value="1"></i><b>(1)</b>
+}
+
+input CustomerPredicate { <i class="conum" data-value="2"></i><b>(2)</b>
+    firstName: StringPredicate
+    lastName: StringPredicate
+}
+
+input StringPredicate { <i class="conum" data-value="3"></i><b>(3)</b>
+    is: String
+    isNot: String
+    contains: String
+    startsWith: String
+    endsWith: String
+    isOneOf: [String]
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Any attribute in a GraphQL schema can declare input parameters. We use it to pass an optional <code>filter</code> parameter</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>CustomerPredicate</code> is an <strong>input</strong> type in GraphQL, it declares the different filter input we will accept for filtering our customers</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>We use a generic predicate on Strings</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s add Java classes to map these new types in our model package :</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerPredicate.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record CustomerPredicate(
+        StringPredicate firstName,
+        StringPredicate lastName) {
+}</code></pre>
+</div>
+</div>
+<div class="listingblock">
+<div class="title">StringPredicate.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record StringPredicate(
+        String is,
+        String isNot,
+        List&lt;String&gt; isOneOf,
+        String contains,
+        String startsWith,
+        String endsWith) {
+        }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, we can modify our <code>CustomerController</code> to use the filter.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@QueryMapping
+List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter) { <i class="conum" data-value="1"></i><b>(1)</b>
+    @NotNull SelectJoinStep&lt;Record&gt; query = dslContext.select(CUSTOMERS.asterisk())
+            .from(CUSTOMERS); <i class="conum" data-value="2"></i><b>(2)</b>
+    if (filter != null) {
+        filter.applyOn(query); <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+    return query
+            .fetch()
+            .stream()
+            .map(CustomerModelMapper::mapCustomerRecordToModel)
+            .collect(toList());
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The GraphQL parameter is passed to the method, using the @Argument annotation</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We split the creation of the query, to be able to add the filter later on</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>If a filter is provided, we apply the filter on the query, using the <code>applyOn</code> method.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Then we use JooQ to apply the filter on the query.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerPredicate.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public SelectJoinStep&lt;Record&gt; applyOn(SelectJoinStep&lt;Record&gt; query) {
+    ifNonNull(firstName, firstName -&gt; query.where(firstName.conditions(CUSTOMERS.FIRST_NAME))); <i class="conum" data-value="1"></i><b>(1)</b>
+    ifNonNull(lastName, lastName -&gt; query.where(lastName.conditions(CUSTOMERS.LAST_NAME)));
+    return query; <i class="conum" data-value="1"></i><b>(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>If the filter parameter is provided, we apply the corresponding condition on the query, using JooQ <code>where</code> method.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The actual conditions being provided by our generic <code>StringPredicate</code> class.</p>
+</div>
+<div class="listingblock">
+<div class="title">StringPredicate.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public List&lt;Condition&gt; conditions(TableField field) {
+    return Stream.of(
+                    mapIfNonNull(is, is -&gt; field.eq(is)),
+                    mapIfNonNull(isNot, isNot -&gt; field.ne(isNot)),
+                    mapIfNonNull(startsWith, startsWith -&gt; field.startsWith(startsWith)),
+                    mapIfNonNull(endsWith, endsWith -&gt; field.endsWith(endsWith)),
+                    mapIfNonNull(contains, contains -&gt; field.contains(contains)),
+                    mapIfNonNull(isOneOf, isOneOf -&gt; field.in(isOneOf)))
+            .filter(Objects::nonNull)
+            .toList();
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Now, we can try our filter using different queries such as :</p>
+</div>
+<div class="listingblock">
+<div class="title">query</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
+  customers(filter: {
+    firstName: {isOneOf: ["Dane", "Maura"]}
+  }) {
+    firstName
+    lastName
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_compose_data_coming_from_another_backend"><a class="anchor" href="#_compose_data_coming_from_another_backend"></a>Compose data coming from another backend</h3>
+<div class="paragraph">
+<p>Now, let&#8217;s add another attribute to illustrate how easy it is to combine multiple backends and expose their data as a single data model through GraphQL.</p>
+</div>
+<div class="paragraph">
+<p>We add a <code>greeting</code> argument to our customer.</p>
+</div>
+<div class="listingblock">
+<div class="title">demo.graphqls</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">type Customer {
+   greeting: String!
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>And we implement it using a <code>CustomerGreetingController</code> and our OpenAIService :</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerGreetingController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @SchemaMapping(typeName = "Customer")
+    String greeting(CustomerModel customer, DataFetchingEnvironment env) {
+        return openAiService.greeting(customer.firstName());
+    }</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Finally, let&#8217;s implement the greeting service, calling open AI using langChain4J library.</p>
+</div>
+<div class="listingblock">
+<div class="title">OpenAiService.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static final PromptTemplate GREETING_PROMPT_TEMPLATE = PromptTemplate.from("write a greeting message for {{it}}. The message must be short, no more than 10 words");
+
+public String greeting(String name) {
+    return model.generate(GREETING_PROMPT_TEMPLATE.apply(name).text());
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can now mix data coming from different backend in a single GraphQL query such this one :</p>
+</div>
+<div class="listingblock">
+<div class="title">query</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
+  customers {
+    firstName
+    lastName
+    greeting
+    accounts {
+      iban
+      balance
+      currency
+    }
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance_analysis"><a class="anchor" href="#_performance_analysis"></a>Performance analysis</h3>
+<div class="paragraph">
+<p>A typical performance issues when using REST services are :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>over fetching</strong> : the available service might return some data that the consumer doesn&#8217;t need</p>
+</li>
+<li>
+<p><strong>under fetching</strong> : the available service might not return all the required data, implying that the consumer need to call other services to get the required data.</p>
+</li>
+<li>
+<p>the <strong>query N + 1 issue</strong> : is actually a consequence of under-fetching leading to the explosion of the number of service calls.</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>For example, in our demo, if a consumer wants to get the customers with their address, accounts and greeting message, the sequence of calls will often be something like :</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/perf-rest.png" alt="perf rest">
+</div>
+</div>
+<div class="paragraph">
+<p>This could lead to :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>1 Query to get "N" customers</p>
+</li>
+<li>
+<p>N Queries to get each customer&#8217;s address</p>
+</li>
+<li>
+<p>N Queries to get each customer&#8217;s accounts</p>
+</li>
+<li>
+<p>N Queries to get each customer&#8217;s greeting message</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>GraphQL allow to get all the required data in a single roundtrip, which solves these issues, as the consumer get</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>only the required data,</p>
+</li>
+<li>
+<p>all the required data,</p>
+</li>
+<li>
+<p>in a single roundtrip</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/perf-graphql.png" alt="perf graphql">
+</div>
+</div>
+<div class="paragraph">
+<p>However, the query N + 1 issue did not really disappear, as it is still present in the backend access to the DB or other backends used to get the data.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/perf-graphql-impl.png" alt="perf graphql impl">
+</div>
+</div>
+<div class="paragraph">
+<p>So, let&#8217;s see how we can address this and improve the GraphQL performance.</p>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_performance_optimisations_using_jooq"><a class="anchor" href="#_performance_optimisations_using_jooq"></a>Performance optimisations using JooQ</h3>
+<div class="paragraph">
+<p>JooQ is a perfect match for GraphQL, as it allows to build SQL queries dynamically, based on the GraphQL query. This will be very useful to optimise our service.</p>
+</div>
+<div class="sect3">
+<h4 id="_optimising_the_address_query"><a class="anchor" href="#_optimising_the_address_query"></a>Optimising the address query</h4>
+<div class="paragraph">
+<p>Let&#8217;s start by optimising the address query. Instead of querying the address table for each customer, we can use an SQL join to get all the addresses in a single query.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@QueryMapping
+List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) { <i class="conum" data-value="1"></i><b>(1)</b>
+    SelectSelectStep&lt;Record&gt; select = dslContext.select(CUSTOMERS.asterisk());
+    if (selectionSet.contains("address")) { <i class="conum" data-value="2"></i><b>(2)</b>
+        select.select(ADDRESSES.asterisk());
+    }
+    SelectJoinStep&lt;Record&gt; query = select.from(CUSTOMERS);
+    if (selectionSet.contains("address")) { <i class="conum" data-value="3"></i><b>(3)</b>
+        query.leftJoin(ADDRESSES).on(ADDRESSES.ID.eq(CUSTOMERS.ADDRESS_ID));
+    }
+    if (filter != null) {
+        filter.applyOn(query);
+    }
+    return query
+            .fetch()
+            .stream()
+            .map(CustomerModelMapper::mapCustomerRecordToModel)
+            .toList();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We can inject the <code>DataFetchingFieldSelectionSet</code> in the method, to get the list of fields requested in the GraphQL query.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>If the <code>address</code> field is requested, we add the address fields to the select clause of the query.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>If the <code>address</code> field is requested, we add a join to the address table.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now test our query again, and we see the executed query is using a join if the <code>address</code> field are requested (see the JooQ Logs to see the details of the executed SQL queries).</p>
+</div>
+<div class="paragraph">
+<p>We still need to modify the Model and the mapping to take into account the new address fields.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerModel.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record CustomerModel(
+        String id,
+        String firstName,
+        String lastName,
+        AddressModel address) { <i class="conum" data-value="1"></i><b>(1)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>address</code> attribute is now an <code>AddressModel</code> so it will be mapped to the address fields. We do not need anymore to keep the <code>addressId</code> as it was only used to create the SQL query to get the address later on.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">CustomerModelMapper.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    public static CustomerModel mapCustomerRecordToModel(Record record) {
+        if (record == null) {
+            return null;
+        }
+
+        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES));
+
+        return new CustomerModel(
+                customerRecord.getId(),
+                customerRecord.getFirstName(),
+                customerRecord.getLastName(),
+                addressModel,
+                accounts
+        );
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We map the address fields to an <code>AddressModel</code> using the <code>AddressModelMapper</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We pass the <code>AddressModel</code> to the <code>CustomerModel</code> constructor.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now test our query again, to see if the address data is returned.</p>
+</div>
+<div class="paragraph">
+<p>But we get an error, because when there is no address, the address fields returned by the query are <code>null</code>, and we defined them as non-null in the GraphQL schema.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s fix this.</p>
+</div>
+<div class="listingblock">
+<div class="title">AddressModelMapper.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    public static AddressModel mapAddressRecordToModel(Record record) {
+        if (record == null) {
+            return null;
+        }
+        AddressesRecord addressRecord = record.into(ADDRESSES);
+        if (addressRecord.getId() == null) { <i class="conum" data-value="1"></i><b>(1)</b>
+            return null;
+        }
+        return new AddressModel(
+                addressRecord.getStreetNumber(),
+                addressRecord.getStreetName(),
+                addressRecord.getZipCode(),
+                addressRecord.getCity(),
+                addressRecord.getCountry()
+        );
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We check if the address id is null, and if it is the case, we return null.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now test our query again, and we see the address data is returned, and we execute only one SQL query.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_optimising_the_accounts_query"><a class="anchor" href="#_optimising_the_accounts_query"></a>Optimising the accounts query</h4>
+<div class="paragraph">
+<p>Now, let&#8217;s optimise the accounts query. But here, it is a little different as the relation is one-to-many, so we cannot use a join like for the address.</p>
+</div>
+<div class="paragraph">
+<p>JooQ has a solution for this, using the <code>multiset</code> feature.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@QueryMapping
+List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) {
+    SelectSelectStep&lt;Record&gt; select = dslContext.select(CUSTOMERS.asterisk());
+    if (selectionSet.contains("address")) {
+        select = select.select(ADDRESSES.asterisk());
+    }
+    if (selectionSet.contains("accounts")) { <i class="conum" data-value="1"></i><b>(1)</b>
+        select = select.select(
+                DSL.multiset( <i class="conum" data-value="2"></i><b>(2)</b>
+                        dslContext
+                                .selectFrom(ACCOUNTS)
+                                .where(ACCOUNTS.CUSTOMER_ID.eq(CUSTOMERS.ID))) <i class="conum" data-value="3"></i><b>(3)</b>
+                        .as("Accounts_Multiset")); <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+    ...
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>If the <code>accounts</code> field is requested, we add a <em>multiset</em> field to the select clause of the query.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>The <code>multiset</code> feature of JooQ allows to create a sub-query that will return a list of accounts for each customer and store it in the result as a single (json) field</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>We create the sub-query, using the <code>dslContext</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We give a name to the multiset field, that will be used to map the result to a list of <code>AccountModel</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>If we run our query and look at the logs, we see that JooQ format the list of accounts as a JSON array.</p>
+</div>
+<div class="listingblock">
+<div class="title">log</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>+----+----------+----------+-----------+--------------------------------------------------+
+|id  |first_name|address_id|last_name  |Accounts_Multiset                                 |
++----+----------+----------+-----------+--------------------------------------------------+
+|0   |Season    |0         |Kling      |[(0, MR4397602666149964536457958, -39681.0, KID...|
+|1   |Maura     |0         |Marks      |[(3, KW52VCGU0Cp7MFCZ0Di10PUGgTfUCp, 421570.0, ...|
+|2   |Perry     |{null}    |Cruickshank|[(4, FR2497686504425I144umb2YJ34, 442239.0, MRU...|
+|3   |Dane      |{null}    |Jaskolski  |[(6, SV42IOXV33200864928287361387, 624348.0, PY...|
+|4   |Charisse  |2         |Braun      |[(7, IQ39INEQ957796527837825, 753317.0, SLL, 4)]  |
++----+----------+----------+-----------+--------------------------------------------------+</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>We can now adapt the <code>CustomerModel</code> to include the list of accounts.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerModel.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record CustomerModel(
+        String id,
+        String firstName,
+        String lastName,
+        AddressModel address,
+        List&lt;AccountModel&gt; accounts) <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We add the <code>accounts</code> attribute to the <code>CustomerModel</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>And we can now adapt the mapping to take into account the new accounts fields.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerModelMapper.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    public static CustomerModel mapCustomerRecordToModel(Record record) {
+        if (record == null) {
+            return null;
+        }
+
+        AddressModel addressModel = AddressModelMapper.mapAddressRecordToModel(record.into(Tables.ADDRESSES));
+
+        List&lt;AccountModel&gt; accounts = Collections.emptyList();
+        if (record.field("Accounts_Multiset") != null) {
+            accounts = AccountModelMapper.mapAccountRecordToModel((Result&lt;Record&gt;) record.get("Accounts_Multiset")); <i class="conum" data-value="1"></i><b>(1)</b>
+        }
+
+        return new CustomerModel(
+                record.get(CUSTOMERS.ID),
+                record.get(CUSTOMERS.FIRST_NAME),
+                record.get(CUSTOMERS.LAST_NAME),
+                addressModel,
+                accounts <i class="conum" data-value="2"></i><b>(2)</b>
+        );
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>If there is a sub-query result, we get it by its field name, cast it to a <code>Result&lt;Record&gt;</code> and pass it to the <code>AccountModelMapper</code> to get the list of accounts.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We pass the <code>accounts</code> to the <code>CustomerModel</code> constructor.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">AccountModelMapper.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public static List&lt;AccountModel&gt; mapAccountRecordToModel(Result&lt;Record&gt; accountsMultiset) {
+    return accountsMultiset.stream() <i class="conum" data-value="1"></i><b>(1)</b>
+            .map(AccountModelMapper::mapAccountRecordToModel) <i class="conum" data-value="2"></i><b>(2)</b>
+            .toList();
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We stream the result of the sub-query</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>And we map each <code>AccountRecord</code> to an <code>AccountModel</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now test our query again, and we see the accounts data is returned, and we still execute only one SQL query !</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_some_refactoring"><a class="anchor" href="#_some_refactoring"></a>Some refactoring</h4>
+<div class="paragraph">
+<p>To get cleaner code, we can now refactor the code a little bit.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s come back to our CustomerController, and extract the query creation in a separate methods to make the code more readable.</p>
+</div>
+<div class="listingblock">
+<div class="title">filename.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @QueryMapping
+    List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) {
+        SelectSelectStep&lt;Record&gt; select = selectStep(selectionSet); <i class="conum" data-value="1"></i><b>(1)</b>
+        SelectJoinStep&lt;Record&gt; query = joinStep(selectionSet, select); <i class="conum" data-value="2"></i><b>(2)</b>
+        query = whereStep(filter, query); <i class="conum" data-value="3"></i><b>(3)</b>
+        return executeAndMap(query); <i class="conum" data-value="4"></i><b>(4)</b>
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Select the fields to be returned in the query, depending on the selection set</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Create the join step, depending on the selection set</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>Apply the filter, if any</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>Fetch the results and map them to the <code>CustomerModel</code></td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_optimising_the_greeting_query_using_dataloaders"><a class="anchor" href="#_optimising_the_greeting_query_using_dataloaders"></a>Optimising the greeting query using Dataloaders</h3>
+<div class="paragraph">
+<p>Now, let&#8217;s optimise the greeting query.</p>
+</div>
+<div class="paragraph">
+<p>As we have seen, the greeting query is calling the OpenAI service for each customer, which is not optimal. The idea here would be to <strong><em>batch</em></strong> the calls to the OpenAI service, to get the greeting messages for all the customers in a single call.</p>
+</div>
+<div class="listingblock">
+<div class="title">log</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>Call openAI with name: Season
+Call openAI with name: Maura
+Call openAI with name: Dane <i class="conum" data-value="1"></i><b>(1)</b>
+Call openAI with name: Charisse
+Call openAI with name: Rocco
+Call openAI with name: Leon
+Call openAI with name: Hugh
+Call openAI with name: Frances
+Call openAI with name: Lawana
+Call openAI with name: Dane <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Also note here that there can be multiple calls with the same input, which is usually also a potential performance issue.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>For this, we will use the Dataloader mechanism, that is a common pattern in GraphQL.</p>
+</div>
+<div class="paragraph">
+<p>So let&#8217;s change the @SchemaMapping for the greeting attribute :</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerGreetingController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@SchemaMapping(typeName = "Customer")
+CompletableFuture&lt;String&gt; greeting(CustomerModel customer, DataFetchingEnvironment env) { <i class="conum" data-value="1"></i><b>(1)</b>
+    DataLoader&lt;String, String&gt; dataLoader = env.getDataLoader(GREETING_DATALOADER); <i class="conum" data-value="2"></i><b>(2)</b>
+    return dataLoader.load(customer.firstName()); <i class="conum" data-value="3"></i><b>(3)</b>
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The mapping returns a <code>CompletableFuture&lt;String&gt;</code>. When this mapping will be called, it doesn&#8217;t have to answer immediately. Instead it will delegate to an asynchronous dataloader.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We get the dataloader from the <code>DataFetchingEnvironment</code> using its name.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>And we call the dataloader to get a completable future of the greeting for the current customer.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now, let&#8217;s create the dataloader.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerGreetingDataloader.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@Service
+@RequiredArgsConstructor
+public class CustomerGreetingDataloader {
+    public static final String GREETING_DATALOADER = "GREETING_DATALOADER";
+
+    private final OpenAiService openAiService;
+    private final BatchLoaderRegistry batchLoaderRegistry;
+
+    @PostConstruct
+    void initDataLoader() { <i class="conum" data-value="1"></i><b>(1)</b>
+        batchLoaderRegistry.forTypePair(String.class, String.class)
+                .withName(GREETING_DATALOADER) <i class="conum" data-value="2"></i><b>(2)</b>
+                .withOptions(newOptions()
+                        .setMaxBatchSize(5) <i class="conum" data-value="3"></i><b>(3)</b>
+                )
+                .registerBatchLoader((List&lt;String&gt; names, BatchLoaderEnvironment env)
+                        -&gt; generateGreetings(names)); <i class="conum" data-value="4"></i><b>(4)</b>
+    }
+
+    private Flux&lt;String&gt; generateGreetings(List&lt;String&gt; names) { <i class="conum" data-value="5"></i><b>(5)</b>
+        CompletableFuture&lt;List&lt;String&gt;&gt; futureList =
+                supplyAsync(() -&gt; openAiService.greetings(names), <i class="conum" data-value="6"></i><b>(6)</b>
+                        newVirtualThreadPerTaskExecutor()); <i class="conum" data-value="7"></i><b>(7)</b>
+        return mapToFlux(futureList); <i class="conum" data-value="8"></i><b>(8)</b>
+    }</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>At startup, we initialize the dataloader, by registering it in the <code>batchLoaderRegistry</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We give it a name</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>And we set the maximum batch size, to limit the number data that will be processed by the dataloader in a single call.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="4"></i><b>4</b></td>
+<td>We provide a function that will be called by the dataloader when it is triggered.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="5"></i><b>5</b></td>
+<td>First note that the function returns a <code>Flux&lt;String&gt;</code> and not a list of Strings (greetings). The GraphQL dataloaders, in addition to process data by "batch", also process data asynchronously, and the Spring layer uses the reactive <code>Flux</code> and <code>Mono</code> for this.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="6"></i><b>6</b></td>
+<td>We use a <code>CompletableFuture</code> to call the OpenAI service asynchronously, giving a list of names as input.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="7"></i><b>7</b></td>
+<td>Also note here that we use a <code>VirtualThreadPerTaskExecutor</code> to benefit from Java 21 Virtual threads.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="8"></i><b>8</b></td>
+<td>Finally, we convert the <code>CompletableFuture</code> to a <code>Flux</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>We can now test our query again, and we see the greeting data is returned, and we execute only two calls to the OpenAI service.</p>
+</div>
+<div class="listingblock">
+<div class="title">log</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>Call openAI with names: [Season, Maura, Dane, Charisse, Rocco] on thread VirtualThread[#66]/runnable@ForkJoinPool-1-worker-1 <i class="conum" data-value="1"></i><b>(1)</b>
+Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#72]/runnable@ForkJoinPool-1-worker-2 <i class="conum" data-value="1"></i><b>(1)</b></code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We have a batch limit of 5, and we have 10 customers in DB. So the first call contains 5 names.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>Note that the second call contains only 4 names. This is because the dataloader, by default, will <em>cache</em> the values, it does not call the API twice with the same input ("Dane" in our case).</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>After all these optimisations we successfully optimised the performance of our GraphQL service:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/perf-optimized-graphql.png" alt="perf optimized graphql">
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_conclusions"><a class="anchor" href="#_conclusions"></a>Conclusions</h2>
+<div class="sectionbody">
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/grahpql_logo_inner.png" alt="grahpql logo inner" width="400">
+</div>
+</div>
+<div class="paragraph">
+<p>GraphQL and Spring for GraphqQL offer a very  <strong>flexible</strong> approach to implement data access services.</p>
+</div>
+<div class="paragraph">
+<p>Optimising such a service <strong>performance</strong> can be done using the <strong>Dataloader</strong> mechanism, allowing to address the Query N + 1 issue :</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>It "<strong>Batches</strong>" backend calls</p>
+</li>
+<li>
+<p>It "<strong>Caches</strong>" backend calls for same input</p>
+</li>
+<li>
+<p>It executes <strong>Asynchronously</strong> allowing parallel calls and the use Java 21 Virtual Threads.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock text-center">
+<div class="content">
+<img src="_images/jooq-logo-black.png" alt="jooq logo black" width="200">
+</div>
+</div>
+<div class="paragraph">
+<p><strong>JooQ Dynamic queries</strong> are a perfect match for GraphQL implementation! It allows to</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p><strong>Join</strong> tables when needed</p>
+</li>
+<li>
+<p>Select a "tree of date" using the <strong>Multiset</strong> feature</p>
+</li>
+<li>
+<p>Select <strong>only the required fields</strong></p>
+</li>
+</ul>
+</div>
+<table class="tableblock frame-non grid-none stretch">
+<colgroup>
+<col style="width: 16.6666%;">
+<col style="width: 83.3334%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-center valign-middle"><div class="content"><div class="imageblock">
+<div class="content">
+<img src="_images/d-knuth.png" alt="d knuth">
+</div>
+</div></div></td>
+<td class="tableblock halign-left valign-middle"><div class="content"><div class="quoteblock">
+<blockquote>
+<div class="paragraph">
+<p>We <em>should</em> forget about small efficiencies, say about 97% of the time: <strong>premature optimization is the root of all evil</strong>.</p>
+</div>
+<div class="paragraph">
+<p>Yet we <em>should not pass up our opportunities in that critical 3%</em>.</p>
+</div>
+</blockquote>
+<div class="attribution">
+&#8212; D. Knuth
+</div>
+</div></div></td>
+</tr>
+</tbody>
+</table>
+<div class="paragraph">
+<p>As suggested by D. Knuth, we should not always try to optimise the code from the start as it complexifies it. However, there is a good opportunity of performance improvement applying the strategies explained in this demo.</p>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>

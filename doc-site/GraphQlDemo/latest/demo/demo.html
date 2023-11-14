@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Live Coding Demo :: Spring for GraphQL with JooQ to access database</title>
+    <meta name="generator" content="Antora 2.3.4">
+    <link rel="stylesheet" href="../../../_/css/site.css">
+  </head>
+  <body class="article">
+<header class="header">
+  <nav class="navbar">
+    <div class="navbar-brand">
+      <a class="navbar-item" href="../../..">Spring for GraphQL with JooQ to access database</a>
+      <button class="navbar-burger" aria-controls="topbar-nav" aria-expanded="false" aria-label="Toggle main menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <div id="topbar-nav" class="navbar-menu">
+      <div class="navbar-end">
+        <a class="navbar-item" href="#">Home</a>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Products</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Product A</a>
+            <a class="navbar-item" href="#">Product B</a>
+            <a class="navbar-item" href="#">Product C</a>
+          </div>
+        </div>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link" href="#">Services</a>
+          <div class="navbar-dropdown">
+            <a class="navbar-item" href="#">Service A</a>
+            <a class="navbar-item" href="#">Service B</a>
+            <a class="navbar-item" href="#">Service C</a>
+          </div>
+        </div>
+        <div class="navbar-item">
+          <span class="control">
+            <a class="button is-primary" href="#">Download</a>
+          </span>
+        </div>
+      </div>
+    </div>
+  </nav>
+</header>
+<div class="body">
+<div class="nav-container" data-component="GraphQlDemo" data-version="latest">
+  <aside class="nav">
+    <div class="panels">
+<div class="nav-panel-explore is-active" data-panel="explore">
+  <div class="context">
+    <span class="title">GraphQL Demo</span>
+    <span class="version">latest</span>
+  </div>
+  <ul class="components">
+    <li class="component is-current">
+      <a class="title" href="../guide/detailed-guide.html">GraphQL Demo</a>
+      <ul class="versions">
+        <li class="version is-current is-latest">
+          <a href="../guide/detailed-guide.html">latest</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+</div>
+    </div>
+  </aside>
+</div>
+<main class="article">
+<div class="toolbar" role="navigation">
+<button class="nav-toggle"></button>
+  <a href="../guide/detailed-guide.html" class="home-link"></a>
+<nav class="breadcrumbs" aria-label="breadcrumbs">
+</nav>
+<div class="edit-this-page"><a href="file:///C:/Users/didie/IdeaProjects/GraphQLDemo/doc/modules/demo/pages/demo.adoc">Edit this Page</a></div>
+</div>
+  <div class="content">
+<aside class="toc sidebar" data-title="Contents" data-levels="2">
+  <div class="toc-menu"></div>
+</aside>
+<article class="doc">
+<h1 class="page">Live Coding Demo</h1>
+<div class="sect1">
+<h2 id="_before_the_demo"><a class="anchor" href="#_before_the_demo"></a>Before the demo</h2>
+<div class="sectionbody">
+<div class="ulist">
+<ul>
+<li>
+<p>Start Docker</p>
+</li>
+<li>
+<p>Start IntelliJ</p>
+</li>
+<li>
+<p>Check the DB</p>
+</li>
+<li>
+<p>Open tabs in Chrome :</p>
+<div class="ulist">
+<ul>
+<li>
+<p>GraphiQL</p>
+</li>
+<li>
+<p>Voyager</p>
+</li>
+<li>
+<p>Slides</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Prepare an empty workspace (if no wifi connection, the spring initializer might not work!)</p>
+</li>
+<li>
+<p>Désactiver les notifications / activer le mode ne pas déranger</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_hello_world"><a class="anchor" href="#_hello_world"></a>Hello World</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create the project</p>
+</li>
+<li>
+<p>Add the dependencies</p>
+</li>
+<li>
+<p>Add the properties</p>
+</li>
+<li>
+<p>Create the Schema</p>
+</li>
+<li>
+<p>Run the app</p>
+</li>
+<li>
+<p>Add the <strong>demo</strong> @QueryMapping</p>
+</li>
+<li>
+<p>Add the OpenAIService</p>
+</li>
+<li>
+<p>Implement the controller and test it</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_customers_and_accounts"><a class="anchor" href="#_customers_and_accounts"></a>Customers and accounts</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p><strong>The Database</strong></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Show the DB</p>
+</li>
+<li>
+<p>API First &#8658; Create the GraphQL schema</p>
+</li>
+<li>
+<p>Add JooQ dependencies</p>
+</li>
+<li>
+<p>Add JooQ Generator</p>
+</li>
+<li>
+<p>Generate JooQ Classes</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>The Model classes</strong></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Add Model Classes</p>
+</li>
+<li>
+<p>Add the mappers classes</p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p><strong>The CustomerController</strong></p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Add the <strong>customers</strong> @QueryMapping and test it</p>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Make sure to use asterisk</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</li>
+<li>
+<p>Add <strong>Address</strong> @SchemaMapping and test it</p>
+</li>
+<li>
+<p>Add <strong>Accounts</strong> @SchemaMapping and test it</p>
+</li>
+<li>
+<p>Add the customer <strong>filter</strong></p>
+</li>
+</ol>
+</div>
+</li>
+<li>
+<p>Composition with another backend</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_filtering"><a class="anchor" href="#_filtering"></a>Filtering</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Filtering the customers</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_composition_with_another_backend"><a class="anchor" href="#_composition_with_another_backend"></a>Composition with another backend</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Add greeting attribute to the customer</p>
+</li>
+</ol>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_performance_issue"><a class="anchor" href="#_performance_issue"></a>Performance Issue</h2>
+<div class="sectionbody">
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Explain the issue on slides</p>
+</li>
+<li>
+<p>Illustrate it using the demo logs</p>
+</li>
+<li>
+<p>Solve it for adresses</p>
+<div class="olist loweralpha">
+<ol class="loweralpha" type="a">
+<li>
+<p>Add the <strong>DataFetchingFieldSelectionSet</strong> method parameter</p>
+</li>
+<li>
+<p>use it to include address fields if needed</p>
+</li>
+<li>
+<p>use it to make a join if needed</p>
+</li>
+</ol>
+</div>
+</li>
+</ol>
+</div>
+<div class="admonitionblock important">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-important" title="Important"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>Show how to query only the required columns</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</article>
+  </div>
+</main>
+</div>
+<footer class="footer">
+  <p>This page was built using the Antora default UI.</p>
+  <p>The source code for this UI is licensed under the terms of the MPL-2.0 license.</p>
+</footer>
+<script id="site-script" src="../../../_/js/site.js" data-ui-root-path="../../../_"></script>
+<script async src="../../../_/js/vendor/highlight.js"></script>
+  </body>
+</html>
