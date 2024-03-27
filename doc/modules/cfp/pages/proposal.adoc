@@ -1,0 +1,29 @@
+= Proposal
+
+== Title
+
+Efficient GraphQL Implementations: Leveraging Spring Boot and JooQ for Performance
+
+== Elevator pitch
+
+Discover how to implement a GraphQL data access service in Java using Spring Boot for GraphQL and JooQ for database access.
+
+Join us as we uncover the most common performance issues in service implementation and unveil powerful techniques for optimizing your GraphQL performance.
+
+This talk will be primarily a live coding presentation.
+
+== Notes
+
+To give an overview of my presentation proposal, I've taken the initiative of preparing a video.
+
+I've also written a detailed step-by-step guide to the subject.
+
+// TODO give the link to the github ?
+
+I'm very excited to share this at the conference.
+
+Please don't hesitate to contact me if you have any questions or would like to suggest improvements to my proposal.
+
+Kind regards,
+Didier
+

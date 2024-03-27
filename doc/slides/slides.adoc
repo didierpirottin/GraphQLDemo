@@ -14,8 +14,8 @@
 // :revealjs_autoPlayMedia: true
 // :revealjs_defaultTiming: 42
 // //:revealjs_transitionSpeed: fast
-:revealjs_parallaxBackgroundImage: images/background-landscape-light-orange.jpg
-:revealjs_parallaxBackgroundSize: 4936px 2092px
+// :revealjs_parallaxBackgroundImage: images/background-landscape-light-orange.jpg
+// :revealjs_parallaxBackgroundSize: 4936px 2092px
 :customcss: css/presentation.css
 // :imagesdir: images
 // :source-highlighter: highlightjs
@@ -93,6 +93,20 @@ Implementation & Performance Optimisations
 == Demo
 
 [%auto-animate]
+[.lightbg,background-video="videos/live-coding.mp4",background-video-loop="true",background-opacity="0.7"]
+== Solution Design
+
+image::images/archi.png[]
+
+[%auto-animate]
+[.lightbg,background-video="videos/live-coding.mp4",background-video-loop="true",background-opacity="0.7"]
+== Solution Design
+
+image::images/archi-openai.png[]
+
+
+
+[%auto-animate]
 [.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
 == Performance
 
@@ -123,6 +137,12 @@ image::images/perf-graphql-impl.png[width=50%]
 
 [%auto-animate]
 [.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
+== GraphQL Dataloader
+
+image::images/dataloader.png[width=50%]
+
+[%auto-animate]
+[.lightbg,background-video="videos/dashboard.mp4",background-video-loop="true",background-opacity="0.7"]
 == Performance - GraphQL Optimised
 
 image::images/perf-optimized-graphql.png[width=50%]
@@ -134,27 +154,84 @@ image::images/perf-optimized-graphql.png[width=50%]
 == Conclusions
 
 
-image::images/grahpql_logo_inner.png[height=100,align="center"]
+[grid=none]
+[frame=none]
+[cols="^.^a"]
+|===
 
-*Flexible* and *performant* data access service
+| image::images/grahpql_logo_inner.png[height=100]
 
-- *DSL* to specify the expose data model
-- *Dataloader*
-** "*Batch*" backend access
-** "*Cache*" backend access for same input
-** *Asynchronous* calls
+|===
+
+*GraphQL* is a great technology to design highly *flexible* services *exposing data* from different backends.
 
 [%auto-animate]
 [.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
 == Conclusions
 
-image::images/jooq-logo-black.png[height=100,align="center"]
 
-*JooQ Dynamic queries* are a perfect match for GraphQL implementation!
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a"]
+|===
 
-- *Join* table when needed
-- select *only the required fields*
-- *Multiset* to select tree data
+|
+image::images/grahpql_logo_inner.png[height=100]
+|
+image::images/spring-boot-logo-300x158.png[height=100]
+
+|===
+
+*Spring Boot* for GraphQL provides great support to ease the implementation of GraphQL services in Java.
+
+*Dataloader* mechanism allow to address the *Query N+1* issue and to benefit from *asynchronous execution* and Java 21 *virtual threads*.
+
+[%auto-animate]
+[.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
+== Conclusions
+
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a,^.^a"]
+|===
+
+|
+image::images/grahpql_logo_inner.png[height=100]
+|
+image::images/spring-boot-logo-300x158.png[height=100]
+|
+image::images/jooq-logo-black.png[height=100]
+
+|===
+
+*JooQ* is a great library allowing to implement database access for GraphQL services, thanks to its powerful DSL allowing easy *dynamic SQL*
+
+- Select only *required field*
+- *Dynamic joins*
+- Sub-select as *multiset* to fetch tree structure
+
+[%auto-animate]
+[.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
+== Conclusions
+
+[grid=none]
+[frame=none]
+[cols="^.^a,^.^a,^.^a,^.^a"]
+|===
+
+|
+image::images/grahpql_logo_inner.png[height=100]
+|
+image::images/spring-boot-logo-300x158.png[height=100]
+|
+image::images/jooq-logo-black.png[height=100]
+|
+image::images/performance.png[height=100]
+
+|===
+
+All these technologies are perfectly working *together* to produce highly *flexible* and *performant* services *to expose data*.
+
 
 [%auto-animate]
 [.lightbg,background-video="videos/conclusion.mp4",background-video-loop="true",background-opacity="0.7"]
@@ -200,8 +277,8 @@ ____
 * https://github.com/didierpirottin/graphql-jooq-perf[Source code]
 
 .documentation
-* https://github.com/didierpirottin/graphql-jooq-perf[Slides]
-* https://github.com/didierpirottin/graphql-jooq-perf[Detailed step-by-step guide]
+* https://htmlpreview.github.io/?https://github.com/didierpirottin/graphql-jooq-perf/blob/main/doc/slides-site/slides.html[Slides]
+* https://htmlpreview.github.io/?https://github.com/didierpirottin/graphql-jooq-perf/blob/main/doc/doc-site/GraphQlDemo/latest/guide/detailed-guide.html[Detailed step-by-step guide]
 
 .Contact
 * Email: mailto:didier.pirottin@gmail.com[]

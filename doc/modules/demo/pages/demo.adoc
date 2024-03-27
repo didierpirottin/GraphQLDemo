@@ -4,68 +4,64 @@
 
 - Start Docker
 - Start IntelliJ
-- Check the DB
+** Open the solution workspace
+** Start the App
 - Open tabs in Chrome :
 ** GraphiQL
 ** Voyager
 ** Slides
 
 - Prepare an empty workspace (if no wifi connection, the spring initializer might not work!)
+
+- Restart IntelliJ
+** Clean recent project list
+
 - Désactiver les notifications / activer le mode ne pas déranger
 
-==  Hello World
+==  Main steps
+
+Intro::
+- Slides
+
+Init::
 . Create the project
-. Add the dependencies
-. Add the properties
-. Create the Schema
-. Run the app
-. Add the *demo* @QueryMapping
-. Add the OpenAIService
-. Implement the controller and test it
+** 6 starters: graphQL, web, JooQ, PostgreSql, devtools, lombok
+. Add the *dependencies* & *properties*
+. Show *DB*
+. Create the *Schema*
+. Add *Voyage*
+. *Run* the app
+. Show *Voyager* & *GraphiQL*
 
-== Customers and accounts
+Implementation::
+. Slide Solution Design
+. Generate JooQ classes
+. Add *init* classes & explain
+. Implement Controller & test
 
-. *The Database*
-.. Show the DB
-.. API First => Create the GraphQL schema
-.. Add JooQ dependencies
-.. Add JooQ Generator
-.. Generate JooQ Classes
-. *The Model classes*
-.. Add Model Classes
-.. Add the mappers classes
-. *The CustomerController*
-.. Add the *customers* @QueryMapping and test it
-+
-[WARNING]
-====
-Make sure to use asterisk
-====
-.. Add *Address* @SchemaMapping and test it
-.. Add *Accounts* @SchemaMapping and test it
-.. Add the customer *filter*
-. Composition with another backend
+Filter::
+. Add *filter*
+. Implement Controller & test
 
-== Filtering
+Greeting::
+. Slide Solution Design
+. Add *greeting*
+. Implement Controller & test
 
-. Filtering the customers
+Performance - Jooq::
 
-== Composition with another backend
+. Slides performance
+. *Over-fetching*
+. *address*
+. *accounts*
 
-. Add greeting attribute to the customer
+Performance - Dataloader::
+. *greeting*
+. Slide dataloader
+. Slide perf optimized
 
-== Performance Issue
-
-. Explain the issue on slides
-. Illustrate it using the demo logs
-. Solve it for adresses
-.. Add the *DataFetchingFieldSelectionSet* method parameter
-.. use it to include address fields if needed
-.. use it to make a join if needed
-
-
-[IMPORTANT]
-====
-Show how to query only the required columns
-====
-
+Conclusions::
+. Slides.
+. Do not optimize too early
+. Source code, detailed step-by-step guide (with some additional details) are available on Github.
+. Thank you for listing.

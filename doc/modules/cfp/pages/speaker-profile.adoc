@@ -1,0 +1,22 @@
+= Speaker Profile
+
+Software architect and senior Java developer at BGL BNP Paribas, Didier has extensive experience of using Web and Java application technologies in a secure, high-performance and controlled environment.
+
+With 30 years' experience in development, including 25 years in Java, he is passionate about the ever-evolving Java landscape, frameworks like Spring Boot and emerging technologies like GraphQL.
+
+Didier enjoys engaging in pragmatic conversations with fellow developers and software architects, sharing ideas and contributing his own knowledge.
+
+== Profile with "I"
+
+Software architect and senior Java developer at BGL BNP Paribas, I have extensive experience of using Web and Java application technologies in a secure, high-performance and controlled environment.
+
+With 30 years' experience in development, including 25 years in Java, I am passionate about the ever-evolving Java landscape, frameworks like Spring Boot and emerging technologies like GraphQL.
+
+I enjoy engaging in pragmatic conversations with fellow developers and software architects, sharing ideas and contributing my own knowledge.
+
+== Speaker credentials
+
+I have given numerous training sessions and presentations within the bank and the BNP Paribas Group. Unfortunately, recordings of these sessions are not available. In order to give an overview of my talk proposal, I have taken the initiative to prepare a video.
+
+The prospect of presenting at XXXX is a real source of motivation for me. I'm looking forward to sharing interesting content and meeting other speakers.
+

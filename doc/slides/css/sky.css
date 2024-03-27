@@ -244,6 +244,11 @@ body {
   border: 0;
   box-shadow: none; }
 
+.reveal section plain {
+  border: 0;
+  box-shadow: none;
+}
+
 .reveal a img {
   -webkit-transition: all .15s linear;
   -moz-transition: all .15s linear;

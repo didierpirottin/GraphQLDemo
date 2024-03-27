@@ -1,0 +1,25 @@
+@startuml
+SpringGraphQL -> GreetingController : greeting(Customer1)
+GreetingController -> Dataloader : load("Maura")
+note right: No service call at that point
+SpringGraphQL -> GreetingController : greeting(Customer2)
+GreetingController -> Dataloader : load("Dane")
+SpringGraphQL -> GreetingController : greeting(Customer3)
+GreetingController -> Dataloader : load("Hugh")
+SpringGraphQL -> GreetingController : greeting(Customer4)
+GreetingController -> Dataloader : load("Dane")
+note right: Duplicated input !
+SpringGraphQL -> GreetingController : greeting(Customer5)
+GreetingController -> Dataloader : load("Leon")
+
+SpringGraphQL -> Dataloader : get
+note right: Now the data is really needed... so the data loader must get it
+
+Dataloader -> Dataloader : generateGreetings("Maura", "Dane", "Hugh", "Leon")
+note bottom: Our function is called, \nbut the duplicated names have been removed by the cache
+
+Dataloader -> OpenAiService : greetings("Maura", "Dane", "Hugh", "Leon")
+OpenAiService -> OpenAi : generate with prompt
+note bottom: The OpenAi is finally called with a prompt asking the greeting massages
+
+@enduml

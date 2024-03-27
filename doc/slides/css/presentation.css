@@ -106,7 +106,10 @@ SECTION .title {
   display: inline-block;
 }
 
-
+.reveal section div.plain span img {
+    border: 0;
+    box-shadow: none;
+}
 
 /* --- Layout Helper  --------------------------------------------------- */
 

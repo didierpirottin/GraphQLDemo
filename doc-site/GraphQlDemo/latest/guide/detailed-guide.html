@@ -58,16 +58,13 @@
 <h2 id="_intro"><a class="anchor" href="#_intro"></a>Intro</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Welcome to this presentation about GraphQL and how to implement a GraphQL service in Java using Spring for GraphQL and JooQ for database access.</p>
+<p>Welcome to this detailed guide about GraphQL and how to implement a GraphQL service in Java using <a href="https://spring.io/projects/spring-graphql">Spring for GraphQL</a> and <a href="https://www.jooq.org/">JooQ</a> for database access.</p>
 </div>
 <div class="paragraph">
-<p>This is not a basic introduction to GraphQL, but for those of you who do not know GraphQL much, don&#8217;t worry, we will start with a basic hello world style example, and we will introduce more advanced features progressively.</p>
+<p>We will start with a basic hello world style example, and we will introduce more advanced features progressively. However, this is not a detailed guide about GraphQL, as we will more focus on how to implement it using <a href="https://spring.io/projects/spring-graphql">Spring for GraphQL</a> and <a href="https://www.jooq.org/">JooQ</a>.</p>
 </div>
 <div class="paragraph">
-<p>The main objective is to highlight some important attention point in the implementation, more specifically related to potential performance issues, and to address them.</p>
-</div>
-<div class="paragraph">
-<p>This talk is mainly a live coding presentation, so there will be very few slides.</p>
+<p>The main objective is to highlight some important attention point in the implementation, more specifically related to <strong>potential performance issues</strong>, and to address them.</p>
 </div>
 </div>
 </div>
@@ -115,10 +112,10 @@
 <div class="title">documentation</div>
 <ul>
 <li>
-<p><a href="https://github.com/didierpirottin/graphql-jooq-perf">Slides</a></p>
+<p><a href="https://htmlpreview.github.io/?https://github.com/didierpirottin/graphql-jooq-perf/blob/main/doc/slides-site/slides.html">Slides</a></p>
 </li>
 <li>
-<p><a href="https://github.com/didierpirottin/graphql-jooq-perf">Detailed step-by-step guide</a></p>
+<p><a href="https://htmlpreview.github.io/?https://github.com/didierpirottin/graphql-jooq-perf/blob/main/doc/doc-site/GraphQlDemo/latest/guide/detailed-guide.html">Detailed step-by-step guide</a></p>
 </li>
 </ul>
 </div>
@@ -145,16 +142,16 @@
 <div class="sect1">
 <h2 id="_hello_world"><a class="anchor" href="#_hello_world"></a>Hello World</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Let&#8217;s start by creating a simple Hello World style service.</p>
+</div>
 <div class="sect2">
 <h3 id="_create_the_workspace"><a class="anchor" href="#_create_the_workspace"></a>Create the workspace</h3>
 <div class="paragraph">
-<p>So let&#8217;s start with a hello world style service.</p>
+<p>We will start by creating a new GraphQL service, using  <strong>Spring Initialzr</strong>. You can use it from <a href="https://start.spring.io/" class="bare">https://start.spring.io/</a> or from the IntelliJ "new project" menu.</p>
 </div>
 <div class="paragraph">
-<p>For this demo, we will start by creating a new GraphQL service, using  Spring Initialzr. You can use it from <a href="https://start.spring.io/" class="bare">https://start.spring.io/</a> or from the IntelliJ new project menu.</p>
-</div>
-<div class="paragraph">
-<p>We will use Java 21, Spring Boot 3.1.5, Maven, just a few starters for now :</p>
+<p>We will use Java 21, Spring Boot 3.1.5, Maven and a few starters :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -166,6 +163,9 @@
 </li>
 <li>
 <p>DevTools</p>
+</li>
+<li>
+<p>Lombok</p>
 </li>
 </ul>
 </div>
@@ -180,7 +180,7 @@
 </div>
 </div>
 <div class="paragraph">
-<p>To make it a little more interesting, we will also use the "LangChain4J" lib, so let&#8217;s add it to the dependencies in the pom file.</p>
+<p>To make it a little more interesting, we will also use the "<a href="https://github.com/langchain4j/langchain4j">LangChain4J</a>" library, so let&#8217;s add it to the dependencies in the pom file.</p>
 </div>
 <div class="listingblock">
 <div class="title">pom.xml</div>
@@ -219,7 +219,7 @@
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>We simply add an entry "demo" that will return a String</td>
+<td>We simply add an entry "demo" that will return a String.</td>
 </tr>
 </table>
 </div>
@@ -252,7 +252,7 @@ demo.openai-proxy-url=http://langchain4j.dev/demo/openai/v1 <i class="conum" dat
 <div class="sect2">
 <h3 id="_run_the_app"><a class="anchor" href="#_run_the_app"></a>Run the app</h3>
 <div class="paragraph">
-<p>We just start the app now, go to the graphiql endpoint and see the default behaviour, which is returning a null for the created endpoint.</p>
+<p>We just start the app now, go to the <strong>graphiql</strong> (<a href="http://localhost/graphiql" class="bare">http://localhost/graphiql</a>) endpoint and see the default behaviour, which is returning a <code>null</code> for the created endpoint.</p>
 </div>
 <div class="paragraph">
 <p><em>This is the default behaviour when no controller is defined.</em></p>
@@ -261,7 +261,7 @@ demo.openai-proxy-url=http://langchain4j.dev/demo/openai/v1 <i class="conum" dat
 <div class="sect2">
 <h3 id="_create_the_controller"><a class="anchor" href="#_create_the_controller"></a>Create the Controller</h3>
 <div class="paragraph">
-<p>Now, let&#8217;s creat the "DemoController" class annotated @Controller and create a method "demo", annotated by @QueryMapping such that Spring will map any call to the demo entry point to this method.</p>
+<p>Now, let&#8217;s creat the <code>DemoController</code> class annotated with <code>@Controller</code> and create a method <code>demo</code>, annotated by <code>@QueryMapping</code> such that Spring will map any call to the demo entry point to this method.</p>
 </div>
 <div class="listingblock">
 <div class="title">DemoController.java</div>
@@ -299,7 +299,7 @@ public class DemoController {
 </table>
 </div>
 <div class="paragraph">
-<p>Here, we use <strong>LangChain4J</strong> library to get a text from openAI, using the <code>OpenAiService</code></p>
+<p>Here, we use <strong><a href="https://github.com/langchain4j/langchain4j">LangChain4J</a></strong> library to get a text from openAI, using the <code>OpenAiService</code></p>
 </div>
 <div class="listingblock">
 <div class="title">OpenAiService.java</div>
@@ -336,7 +336,7 @@ public class DemoController {
 <p>Now let&#8217;s give a more realistic example, with some data stored in a customer database.</p>
 </div>
 <div class="paragraph">
-<p>The database is a Postgres DB, with the following tables :</p>
+<p>The database has the following tables :</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -346,20 +346,20 @@ public class DemoController {
 <div class="ulist">
 <ul>
 <li>
-<p>A <strong>customer</strong> table, containing customers with their first name and laste name</p>
+<p>A <strong>customers</strong> table, containing customers with their first name and last name.</p>
 </li>
 <li>
-<p>An <strong>address</strong> table, containing addresses, an address could be shared by multiple customers</p>
+<p>An <strong>addresses</strong> table, containing addresses, an address could be shared by multiple customers</p>
 </li>
 <li>
-<p>And an <strong>account</strong> table, each customer could have multiple accounts.</p>
+<p>And an <strong>accounts</strong> table, containing bank accounts. Each customer could have multiple accounts.</p>
 </li>
 </ul>
 </div>
 <div class="sect2">
 <h3 id="_api_first"><a class="anchor" href="#_api_first"></a>API First</h3>
 <div class="paragraph">
-<p>GraphQL promotes the <strong>API first</strong> approach through its DSL for designing the API. So, we&#8217;ll start the implementation by specifying the API we would like to expose in the graphql schema.</p>
+<p>GraphQL promotes the <strong>API first</strong> approach through its DSL (Domain Specific Language) for designing the API. So, we&#8217;ll start the implementation by specifying the API we would like to expose in the GraphQL schema.</p>
 </div>
 <div class="listingblock">
 <div class="title">demo.graphqls</div>
@@ -420,7 +420,7 @@ type Address {
 <div class="sect2">
 <h3 id="_visualize_the_graphql_data_model_using_voyager"><a class="anchor" href="#_visualize_the_graphql_data_model_using_voyager"></a>Visualize the GraphQL data model using Voyager</h3>
 <div class="paragraph">
-<p>One of the advantages of the well-defined GraphQL specification is the possibility to create useful tools around it. Voyager is one these tools, let&#8217;s just create a simple html file and see how the schema we just created wan be visualised to explore the GraphQL API.</p>
+<p>One of the advantages of the well-defined GraphQL specification is the possibility to create useful tools around it. <a href="https://github.com/graphql-kit/graphql-voyager">Voyager</a> is one these tools, let&#8217;s just create a simple html file and see how the schema we just created can be visualised to explore the GraphQL API.</p>
 </div>
 <div class="listingblock">
 <div class="title">voyager.html</div>
@@ -479,11 +479,16 @@ type Address {
 <div class="paragraph">
 <p>Here is a screenshot of the Voyager UI on our basic example :</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="_images/voyager.png" alt="voyager">
+</div>
+</div>
 </div>
 <div class="sect2">
 <h3 id="_datasource_and_jooq_configuration"><a class="anchor" href="#_datasource_and_jooq_configuration"></a>Datasource and JooQ configuration</h3>
 <div class="paragraph">
-<p>Before implementing the API, we need to add a few dependencies to access the Postgres DB. Here, we will use <a href="https://www.jooq.org/">JooQ</a> as the database library. As we will see later on, this library is a perfect match for GraphQL.</p>
+<p>Before implementing the API, we need to add a few dependencies to access the Postgres DB. Here, we will use <a href="https://www.jooq.org/">JooQ</a> as the database access library. As we will see later on, this library is a perfect match for GraphQL.</p>
 </div>
 <div class="listingblock">
 <div class="title">pom.xml</div>
@@ -514,7 +519,7 @@ type Address {
 <div class="sect3">
 <h4 id="_jooq_code_generation"><a class="anchor" href="#_jooq_code_generation"></a>JooQ code generation</h4>
 <div class="paragraph">
-<p>As JooQ is based on <strong>code generation</strong>, from the dabase schema, we also add a <strong>JooQ maven plugin</strong> to perform the required code generation.</p>
+<p>JooQ is based on <strong>code generation</strong>, from the dabase schema, so we also add a <strong>JooQ maven plugin</strong> to perform the required code generation.</p>
 </div>
 <div class="listingblock">
 <div class="title">pom.xml</div>
@@ -579,11 +584,11 @@ type Address {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>This section configure what has to be generated</td>
+<td>This section configures what has to be generated</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>And this section configure where the code will be generated</td>
+<td>And this section configures where the code will be generated</td>
 </tr>
 </table>
 </div>
@@ -595,7 +600,7 @@ type Address {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>See <a href="https://www.jooq.org/doc/3.18/manual/code-generation/">Code Generation</a> JooQ documentation for more details and options.</p>
+<p>See <a href="https://www.jooq.org/doc/3.18/manual/code-generation/">JooQ Code Generation</a>  documentation for more details and options.</p>
 </div>
 </td>
 </tr>
@@ -639,7 +644,7 @@ type Address {
 <p>A class per table, containing information about the table and its columns</p>
 </li>
 <li>
-<p>A <strong>"record" Class</strong> (it&#8217;s not Java records) that can be used to get data returned by SQL queries.</p>
+<p>A <strong>"record" Class</strong> (it&#8217;s not Java records) that can be used to simplify the mapping of data returned by SQL queries to Java.</p>
 </li>
 </ul>
 </div></div></td>
@@ -669,20 +674,15 @@ type Address {
         String id,
         String firstName,
         String lastName,
-        String addressId) { }</code></pre>
+        String addressId) <i class="conum" data-value="1"></i><b>(1)</b>
+{ }</code></pre>
 </div>
 </div>
-<div class="admonitionblock warning">
+<div class="colist arabic">
 <table>
 <tr>
-<td class="icon">
-<i class="fa icon-warning" title="Warning"></i>
-</td>
-<td class="content">
-<div class="paragraph">
-<p>Note here that we also define the "addressId" in this model. It is not <em>exposed</em> in the GraphQL data model, but it will be used to get the <em>exposed address</em> as we will see later on.</p>
-</div>
-</td>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>Note here that the <code>addressId</code> field is not <em>exposed</em> in the GraphQL data model, but it will be used to get the <em>exposed address</em> as we will see later on.</td>
 </tr>
 </table>
 </div>
@@ -722,11 +722,11 @@ public class CustomerController {
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The dslContext is the JooQ object that will be used to create SQL queries</td>
+<td>The <code>dslContext</code> is the JooQ object that will be used to create SQL queries</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>@QueryMapping</code> Spring annotation indicates that this method will be mapped to the corresponding GraphQL attribute on the <code>Query</code> type</td>
+<td>The <code>@QueryMapping</code> Spring annotation indicates that this method will be mapped to the corresponding GraphQL attribute on the GraphQL <code>Query</code> type</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -782,7 +782,7 @@ public class CustomerController {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>In a similar way, we can already implement <code>AddressModelMapper</code> and <code>AccountModelMapper</code></p>
+<p>In a similar way, we can implement <code>AddressModelMapper</code> and <code>AccountModelMapper</code></p>
 </div>
 </td>
 </tr>
@@ -792,7 +792,7 @@ public class CustomerController {
 <p>We can now test our service with a simple query :</p>
 </div>
 <div class="listingblock">
-<div class="title">query</div>
+<div class="title">GraphQL query</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
   customers {
@@ -809,7 +809,7 @@ public class CustomerController {
 <p>Now, if we try to get customer address data, such as in this query :</p>
 </div>
 <div class="listingblock">
-<div class="title">query</div>
+<div class="title">GraphQL query</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
   customers {
@@ -830,7 +830,7 @@ public class CustomerController {
 <p>All the returned addresses are <code>null</code> by default.</p>
 </div>
 <div class="paragraph">
-<p>So let&#8217;s add an <code>@SchemaMapping</code> to the CustomerController :</p>
+<p>So let&#8217;s add a <code>@SchemaMapping</code> to the CustomerController :</p>
 </div>
 <div class="listingblock">
 <div class="title">CustomerController.java</div>
@@ -855,15 +855,15 @@ AddressModel address(CustomerModel customer) { <i class="conum" data-value="2"><
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The name of the mapped attribute is the method name, by default. Also note here that the current <code>CustomerModel</code> is injected in the method called by Spring.</td>
+<td>The name of the mapped attribute is the method name, by default. Also note here that the current <code>CustomerModel</code> is injected in the method called by Spring. See the <a href="https://docs.spring.io/spring-graphql/reference/controllers.html#controllers.schema-mapping.signature">Spring documentation on the @SchemaMapping methd signature</a> for more details.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>If the customer does not have an <code>addressId</code>, we simply return null, as it has no known address</td>
+<td>If the customer does not have an <code>addressId</code>, we simply return null, as it has no known address.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
-<td>We perform a SQL query on the <code>Addresses</code> table whith a where clause based on the <code>addressId</code> of the given customer.</td>
+<td>We perform a SQL query on the <code>Addresses</code> table with a where clause based on the <code>addressId</code> of the given customer.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="5"></i><b>5</b></td>
@@ -878,10 +878,10 @@ AddressModel address(CustomerModel customer) { <i class="conum" data-value="2"><
 <div class="sect2">
 <h3 id="_fetching_the_customers_accounts"><a class="anchor" href="#_fetching_the_customers_accounts"></a>Fetching the customer&#8217;s accounts</h3>
 <div class="paragraph">
-<p>Similarly, if we test a query returning the customer&#8217;s accounts data, such as this one</p>
+<p>Similarly, let&#8217;s test a query returning the customer&#8217;s accounts data, such as this one :</p>
 </div>
 <div class="listingblock">
-<div class="title">query</div>
+<div class="title">GraphQL query</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
   customers {
@@ -897,7 +897,7 @@ AddressModel address(CustomerModel customer) { <i class="conum" data-value="2"><
 </div>
 </div>
 <div class="paragraph">
-<p>We get an error, because the GraphQL model defines the <code>accounts</code> attribute as being "non null" and the current implementation returns <code>null</code>.</p>
+<p>We get an error, because the GraphQL model defines the <code>accounts</code> attribute as being "non null" (using the '!' syntax in the GraphQL schema) and the current implementation returns <code>null</code>.</p>
 </div>
 <div class="paragraph">
 <p>To fix this, we define a new @SchemaMapping for the <code>accounts</code> attribute.</p>
@@ -924,7 +924,7 @@ List&lt;AccountModel&gt; accounts(CustomerModel customer) {
 </td>
 <td class="content">
 <div class="paragraph">
-<p>Here, the code will never return null, as it will return an empty list if no account is found.</p>
+<p>Here, the code will never return <code>null</code>, as it will return an empty list if no account is found.</p>
 </div>
 </td>
 </tr>
@@ -937,7 +937,7 @@ List&lt;AccountModel&gt; accounts(CustomerModel customer) {
 <div class="sect2">
 <h3 id="_adding_filtering_using_jooq"><a class="anchor" href="#_adding_filtering_using_jooq"></a>Adding filtering (using JooQ)</h3>
 <div class="paragraph">
-<p>Now let&#8217;s add some filtering to filter the customer&#8217;s by their names:</p>
+<p>Now let&#8217;s add some filtering to filter the customer&#8217;s by their names. We start by specifying the filter in the GraphQL schema.</p>
 </div>
 <div class="listingblock">
 <div class="title">demo.graphqls</div>
@@ -965,15 +965,15 @@ input StringPredicate { <i class="conum" data-value="3"></i><b>(3)</b>
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Any attribute in a GraphQL schema can declare input parameters. We use it to pass an optional <code>filter</code> parameter</td>
+<td>Any attribute in a GraphQL schema can declare input parameters. We use it to pass an optional <code>filter</code> parameter.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>CustomerPredicate</code> is an <strong>input</strong> type in GraphQL, it declares the different filter input we will accept for filtering our customers</td>
+<td>The <code>CustomerPredicate</code> is an <strong>input</strong> type in GraphQL, it declares the different filter input we will accept for filtering our customers.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>We use a generic predicate on Strings</td>
+<td>We use a generic predicate on strings.</td>
 </tr>
 </table>
 </div>
@@ -1040,7 +1040,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter) { <i cla
 </table>
 </div>
 <div class="paragraph">
-<p>Then we use JooQ to apply the filter on the query.</p>
+<p>Then we use JooQ to specify the where clause to be applied on the query.</p>
 </div>
 <div class="listingblock">
 <div class="title">CustomerPredicate.java</div>
@@ -1083,7 +1083,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter) { <i cla
 <p>Now, we can try our filter using different queries such as :</p>
 </div>
 <div class="listingblock">
-<div class="title">query</div>
+<div class="title">GraphQL query</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
   customers(filter: {
@@ -1125,7 +1125,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter) { <i cla
 </div>
 </div>
 <div class="paragraph">
-<p>Finally, let&#8217;s implement the greeting service, calling open AI using langChain4J library.</p>
+<p>Finally, let&#8217;s implement the greeting service, calling open AI using the <em>langChain4J</em> library.</p>
 </div>
 <div class="listingblock">
 <div class="title">OpenAiService.java</div>
@@ -1141,7 +1141,7 @@ public String greeting(String name) {
 <p>We can now mix data coming from different backend in a single GraphQL query such this one :</p>
 </div>
 <div class="listingblock">
-<div class="title">query</div>
+<div class="title">GraphQL query</div>
 <div class="content">
 <pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
   customers {
@@ -1161,7 +1161,7 @@ public String greeting(String name) {
 <div class="sect2">
 <h3 id="_performance_analysis"><a class="anchor" href="#_performance_analysis"></a>Performance analysis</h3>
 <div class="paragraph">
-<p>A typical performance issues when using REST services are :</p>
+<p>Typical performance issues when using microservices and REST apis are :</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1204,7 +1204,7 @@ public String greeting(String name) {
 </ul>
 </div>
 <div class="paragraph">
-<p>GraphQL allow to get all the required data in a single roundtrip, which solves these issues, as the consumer get</p>
+<p>GraphQL allows to get all the required data in a single round trip, which solves these issues, as the consumer get</p>
 </div>
 <div class="ulist">
 <ul>
@@ -1215,7 +1215,7 @@ public String greeting(String name) {
 <p>all the required data,</p>
 </li>
 <li>
-<p>in a single roundtrip</p>
+<p>in a single round trip</p>
 </li>
 </ul>
 </div>
@@ -1225,7 +1225,7 @@ public String greeting(String name) {
 </div>
 </div>
 <div class="paragraph">
-<p>However, the query N + 1 issue did not really disappear, as it is still present in the backend access to the DB or other backends used to get the data.</p>
+<p>However, the query N + 1 issue did not really disappear, as it is still present in the backend access to the DB or other backends used to get the data our current GraphQL service implementation.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -1233,7 +1233,7 @@ public String greeting(String name) {
 </div>
 </div>
 <div class="paragraph">
-<p>So, let&#8217;s see how we can address this and improve the GraphQL performance.</p>
+<p>So, let&#8217;s see how we can improve our implementation.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1244,7 +1244,7 @@ public String greeting(String name) {
 <div class="sect3">
 <h4 id="_optimising_the_address_query"><a class="anchor" href="#_optimising_the_address_query"></a>Optimising the address query</h4>
 <div class="paragraph">
-<p>Let&#8217;s start by optimising the address query. Instead of querying the address table for each customer, we can use an SQL join to get all the addresses in a single query.</p>
+<p>Let&#8217;s start by optimising the address query. Instead of querying the address table for each customer, we can use an <strong>SQL join</strong> to get all the addresses in a single query.</p>
 </div>
 <div class="listingblock">
 <div class="title">CustomerController.java</div>
@@ -1307,7 +1307,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The <code>address</code> attribute is now an <code>AddressModel</code> so it will be mapped to the address fields. We do not need anymore to keep the <code>addressId</code> as it was only used to create the SQL query to get the address later on.</td>
+<td>The <code>address</code> attribute is now an <code>AddressModel</code> so it will be used by the default GraphQL mapping to mapp the address fields. We do not need anymore to keep the <code>addressId</code> as it was only used to create the SQL query to get the address later on.</td>
 </tr>
 </table>
 </div>
@@ -1388,7 +1388,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 <div class="sect3">
 <h4 id="_optimising_the_accounts_query"><a class="anchor" href="#_optimising_the_accounts_query"></a>Optimising the accounts query</h4>
 <div class="paragraph">
-<p>Now, let&#8217;s optimise the accounts query. But here, it is a little different as the relation is one-to-many, so we cannot use a join like for the address.</p>
+<p>Now, let&#8217;s optimise the accounts query. But here, it is a little different as the relation is <strong>one-to-many</strong>, so <em>we cannot use a join like for the address</em>.</p>
 </div>
 <div class="paragraph">
 <p>JooQ has a solution for this, using the <code>multiset</code> feature.</p>
@@ -1422,7 +1422,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>The <code>multiset</code> feature of JooQ allows to create a sub-query that will return a list of accounts for each customer and store it in the result as a single (json) field</td>
+<td>The <code>multiset</code> feature of JooQ allows to create a sub-query that will return a list of accounts for each customer and store it in the result as a single (json) field.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
@@ -1474,7 +1474,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 </table>
 </div>
 <div class="paragraph">
-<p>And we can now adapt the mapping to take into account the new accounts fields.</p>
+<p>Then, we adapt the mapping to take into account the new accounts fields.</p>
 </div>
 <div class="listingblock">
 <div class="title">CustomerModelMapper.java</div>
@@ -1536,7 +1536,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 </table>
 </div>
 <div class="paragraph">
-<p>We can now test our query again, and we see the accounts data is returned, and we still execute only one SQL query !</p>
+<p>That&#8217;s it! We can run our query again, and we see the accounts data is returned, and we still execute only one SQL query !</p>
 </div>
 </div>
 <div class="sect3">
@@ -1545,18 +1545,18 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 <p>To get cleaner code, we can now refactor the code a little bit.</p>
 </div>
 <div class="paragraph">
-<p>Let&#8217;s come back to our CustomerController, and extract the query creation in a separate methods to make the code more readable.</p>
+<p>Let&#8217;s come back to our <code>CustomerController</code>, and extract the query creation in a separate methods to make the code more readable.</p>
 </div>
 <div class="listingblock">
-<div class="title">filename.java</div>
+<div class="title">CustomerController.java</div>
 <div class="content">
-<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    @QueryMapping
-    List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) {
-        SelectSelectStep&lt;Record&gt; select = selectStep(selectionSet); <i class="conum" data-value="1"></i><b>(1)</b>
-        SelectJoinStep&lt;Record&gt; query = joinStep(selectionSet, select); <i class="conum" data-value="2"></i><b>(2)</b>
-        query = whereStep(filter, query); <i class="conum" data-value="3"></i><b>(3)</b>
-        return executeAndMap(query); <i class="conum" data-value="4"></i><b>(4)</b>
-    }</code></pre>
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">@QueryMapping
+List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet) {
+    SelectSelectStep&lt;Record&gt; select = selectStep(selectionSet); <i class="conum" data-value="1"></i><b>(1)</b>
+    SelectJoinStep&lt;Record&gt; query = joinStep(selectionSet, select); <i class="conum" data-value="2"></i><b>(2)</b>
+    whereStep(filter, query); <i class="conum" data-value="3"></i><b>(3)</b>
+    return executeAndMap(query); <i class="conum" data-value="4"></i><b>(4)</b>
+}</code></pre>
 </div>
 </div>
 <div class="colist arabic">
@@ -1579,6 +1579,308 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 </tr>
 </table>
 </div>
+<div class="paragraph">
+<p>In a similar way, we can refactor the extracted <code>selectStep</code> method to clearly split the different parts of it</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">private SelectSelectStep&lt;Record&gt; selectStep(DataFetchingFieldSelectionSet selectionSet) {
+    SelectSelectStep&lt;Record&gt; select = selectCustomers();
+    selectAddresses(selectionSet, select);
+    selectAccounts(selectionSet, select);
+    return select;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s now have a deeper look at the <code>selectCustomers</code> method.</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">private SelectSelectStep&lt;Record&gt; selectCustomers() {
+    SelectSelectStep&lt;Record&gt; select = dslContext.select(CUSTOMERS.asterisk());
+    return select;
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Here, we have a very basic example, but in a real implementation, the use of the <code>asterisk</code> method to read all column of the table might lead to some performance issue, as there can be many columns, some of them potentially containing large data.</p>
+</div>
+<div class="paragraph">
+<p>In addition, maybe only a subset of these columns are requested and so, we are facing the so-called <strong>over-fetching</strong> issue as we get more data than needed.</p>
+</div>
+<div class="paragraph">
+<p>Let&#8217;s illustrate here, how we can improve this by passing the selectionSet to this method:</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">    private SelectSelectStep&lt;Record&gt; selectStep(DataFetchingFieldSelectionSet selectionSet) {
+        SelectSelectStep&lt;Record&gt; select = selectCustomers(selectionSet); <i class="conum" data-value="1"></i><b>(1)</b>
+        selectAddresses(selectionSet, select);
+        selectAccounts(selectionSet, select);
+        return select;
+    }
+
+
+@NotNull
+private SelectSelectStep&lt;Record&gt; selectCustomers(DataFetchingFieldSelectionSet selectionSet) {
+    SelectSelectStep&lt;Record&gt; select = dslContext.select(); <i class="conum" data-value="2"></i><b>(2)</b>
+    if (selectionSet.contains("id")) {
+        select = select.select(CUSTOMERS.ID); <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+    if (selectionSet.contains("firstName")) {
+        select = select.select(CUSTOMERS.FIRST_NAME); <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+    if (selectionSet.contains("lastName")) {
+        select = select.select(CUSTOMERS.LAST_NAME); <i class="conum" data-value="3"></i><b>(3)</b>
+    }
+    return select;
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We pass the <code>selectionSet</code> to the <code>selectCustomers</code> method</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We create an "empty" select</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="3"></i><b>3</b></td>
+<td>For each column, we select it only if it is requested in the GraphQL query.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>With this implementation, we will only read the minimum data needed by the GraphQL query that is processed. For example, this query</p>
+</div>
+<div class="listingblock">
+<div class="title">Query with only the firstName</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">query {
+  customers {
+    firstName
+  }
+}</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Will only read a single column :</p>
+</div>
+<div class="listingblock">
+<div class="title">logs</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>Executing query          : select "public"."customers"."first_name" from "public"."customers"
+Fetched result           : +----------+
+                         : |first_name|
+                         : +----------+
+                         : |Season    |
+                         : |Maura     |
+                         : |Dane      |
+                         : |Charisse  |
+                         : |Rocco     |
+                         : +----------+
+                         : |...record(s) truncated...
+Fetched row(s)           : 10</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>This allows to address the <strong>over-fetching</strong> issue in database accesses.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_improve_filtering_based_on_joined_data"><a class="anchor" href="#_improve_filtering_based_on_joined_data"></a>Improve filtering based on joined data</h4>
+<div class="paragraph">
+<p>Fetching the address data using a join also allows to easily add new filtering capabilities to our GraphQL service:</p>
+</div>
+<div class="listingblock">
+<div class="title">demo.graphqls</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">input CustomerPredicate {
+    firstName: StringPredicate
+    lastName: StringPredicate
+    address: AddressPredicate <i class="conum" data-value="1"></i><b>(1)</b>
+}
+
+input AddressPredicate { <i class="conum" data-value="2"></i><b>(2)</b>
+    streetNumber: StringPredicate
+    streetName: StringPredicate
+    zipCode: StringPredicate
+    city: StringPredicate
+    country: StringPredicate
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We add an <code>AddressPredicate</code> to the <code>CustomerPredicate</code></td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We define the different conditions that can be expressed on the customer address in the <code>AddressPredicate</code>, (re)using the generic <code>StringPredicate</code> previously used.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>The <code>AddressPredicate</code> is implemented in Java as follows:</p>
+</div>
+<div class="listingblock">
+<div class="title">AddressPredicate.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record AddressPredicate(
+        StringPredicate streetNumber,
+        StringPredicate streetName,
+        StringPredicate zipCode,
+        StringPredicate city,
+        StringPredicate country
+) { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    public SelectJoinStep&lt;Record&gt; applyOn(SelectJoinStep&lt;Record&gt; query) { <i class="conum" data-value="2"></i><b>(2)</b>
+        ifNonNull(streetNumber, streetNumber -&gt; query.where(streetNumber.conditions(ADDRESSES.STREET_NUMBER)));
+        ifNonNull(streetName, streetName -&gt; query.where(streetName.conditions(ADDRESSES.STREET_NAME)));
+        ifNonNull(zipCode, zipCode -&gt; query.where(zipCode.conditions(ADDRESSES.ZIP_CODE)));
+        ifNonNull(city, city -&gt; query.where(city.conditions(ADDRESSES.CITY)));
+        ifNonNull(country, country -&gt; query.where(country.conditions(ADDRESSES.COUNTRY)));
+        return query;
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>We create a Java Record mapping the GraphQL input type for the <code>AddressPredicate</code>.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>We implement an <code>applyOn</code> method taking a query as input and configuring a where clause to map the condition expressed using GraphQL to SQL.</td>
+</tr>
+</table>
+</div>
+<div class="listingblock">
+<div class="title">CustomerPredicate.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">public record CustomerPredicate(
+        StringPredicate firstName,
+        StringPredicate lastName,
+        AddressPredicate address) { <i class="conum" data-value="1"></i><b>(1)</b>
+
+    public void applyOn(SelectJoinStep&lt;Record&gt; query) {
+        ifNonNull(firstName, firstName -&gt; query.where(firstName.conditions(CUSTOMERS.FIRST_NAME)));
+        ifNonNull(lastName, lastName -&gt; query.where(lastName.conditions(CUSTOMERS.LAST_NAME)));
+        ifNonNull(address, address -&gt; address.applyOn(query)); <i class="conum" data-value="2"></i><b>(2)</b>
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>In the <code>CustomerPredicate</code>, we add the <code>AddressPredicate</code> to map the (optional) address predicate inputs.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>If some address predicate have been defined, we apply them on the query, using the <code>applyOn</code> method.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>Now we can use the address predicate in our queries like this :</p>
+</div>
+<div class="listingblock">
+<div class="title">query with address predicate</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">{
+  customers(filter: {
+    address: {
+      country: {is: "Cuba"}}}) {
+    firstName
+    address {
+      city
+      country
+    }
+  }
+}</code></pre>
+</div>
+</div>
+<div class="admonitionblock warning">
+<table>
+<tr>
+<td class="icon">
+<i class="fa icon-warning" title="Warning"></i>
+</td>
+<td class="content">
+<div class="paragraph">
+<p>As we currently only add the join with the addresses table if the query returns some address fields, a query like this will throw an error :</p>
+</div>
+<div class="listingblock">
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-graphql hljs" data-lang="graphql">{
+  customers(filter: {
+    address: {
+      country: {is: "Cuba"}}}) {
+    firstName
+  }
+}</code></pre>
+</div>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>To fix this, we need to adapt the <code>CustomerController</code>:</p>
+</div>
+<div class="listingblock">
+<div class="title">CustomerController.java</div>
+<div class="content">
+<pre class="highlightjs highlight"><code class="language-java hljs" data-lang="java">private static void joinAddresses(CustomerPredicate filter, DataFetchingFieldSelectionSet selectionSet, SelectJoinStep&lt;Record&gt; query) { <i class="conum" data-value="1"></i><b>(1)</b>
+    if (selectionSet.contains("address") ||
+            (filter != null &amp;&amp; filter.address() != null)) { <i class="conum" data-value="2"></i><b>(2)</b>
+        query.leftJoin(ADDRESSES).on(ADDRESSES.ID.eq(CUSTOMERS.ADDRESS_ID));
+    }
+}</code></pre>
+</div>
+</div>
+<div class="colist arabic">
+<table>
+<tr>
+<td><i class="conum" data-value="1"></i><b>1</b></td>
+<td>The <code>joinAddresses</code> method takes both the <code>filter</code> and <code>selectionSet</code> as input.</td>
+</tr>
+<tr>
+<td><i class="conum" data-value="2"></i><b>2</b></td>
+<td>In addition to test if the address fields are part of the <code>selectionSet</code> it also tests if the address predicate is used in the provided <code>filter</code>.</td>
+</tr>
+</table>
+</div>
+<div class="paragraph">
+<p>That way, if we have a query like the one above, the query will only select the <code>firstName</code> column on the customers table, but it will use a join with addresses table and where clause filtering customers based on their address.</p>
+</div>
+<div class="listingblock">
+<div class="title">log</div>
+<div class="content">
+<pre class="highlightjs highlight"><code>Executing query          : select "public"."customers"."first_name" from "public"."customers" left outer join "public"."addresses" on "public"."addresses"."id" = "public"."customers"."address_id" where "public"."addresses"."country" = ?
+-&gt; with bind values      : select "public"."customers"."first_name" from "public"."customers" left outer join "public"."addresses" on "public"."addresses"."id" = "public"."customers"."address_id" where "public"."addresses"."country" = 'Cuba'
+Fetched result           : +----------+
+                         : |first_name|
+                         : +----------+
+                         : |Season    |
+                         : |Maura     |
+                         : +----------+
+Fetched row(s)           : 2</code></pre>
+</div>
+</div>
 </div>
 </div>
 <div class="sect2">
@@ -1587,7 +1889,7 @@ List&lt;CustomerModel&gt; customers(@Argument CustomerPredicate filter, DataFetc
 <p>Now, let&#8217;s optimise the greeting query.</p>
 </div>
 <div class="paragraph">
-<p>As we have seen, the greeting query is calling the OpenAI service for each customer, which is not optimal. The idea here would be to <strong><em>batch</em></strong> the calls to the OpenAI service, to get the greeting messages for all the customers in a single call.</p>
+<p>As we can see from the logs, the greeting query is calling the OpenAI service for each customer, which is not optimal.</p>
 </div>
 <div class="listingblock">
 <div class="title">log</div>
@@ -1608,15 +1910,18 @@ Call openAI with name: Dane <i class="conum" data-value="1"></i><b>(1)</b></code
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>Also note here that there can be multiple calls with the same input, which is usually also a potential performance issue.</td>
+<td>Also note that there can be <strong>multiple calls</strong> with the <strong>same input</strong>, which is usually also a <em>potential performance issue</em>.</td>
 </tr>
 </table>
 </div>
 <div class="paragraph">
-<p>For this, we will use the Dataloader mechanism, that is a common pattern in GraphQL.</p>
+<p>The idea here would be to <strong><em>batch</em></strong> the calls to the OpenAI service, to get the greeting messages for all the customers in a single call.</p>
 </div>
 <div class="paragraph">
-<p>So let&#8217;s change the @SchemaMapping for the greeting attribute :</p>
+<p>For this, we will use the <strong>Dataloader</strong> mechanism, that is a common pattern in GraphQL.</p>
+</div>
+<div class="paragraph">
+<p>So let&#8217;s change the schema mapping for the greeting attribute :</p>
 </div>
 <div class="listingblock">
 <div class="title">CustomerGreetingController.java</div>
@@ -1632,7 +1937,7 @@ CompletableFuture&lt;String&gt; greeting(CustomerModel customer, DataFetchingEnv
 <table>
 <tr>
 <td><i class="conum" data-value="1"></i><b>1</b></td>
-<td>The mapping returns a <code>CompletableFuture&lt;String&gt;</code>. When this mapping will be called, it doesn&#8217;t have to answer immediately. Instead it will delegate to an asynchronous dataloader.</td>
+<td>The mapping now returns a <code>CompletableFuture&lt;String&gt;</code>. When this mapping will be called, it doesn&#8217;t answer immediately. Instead, it will delegate to an <em>asynchronous dataloader</em>.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
@@ -1689,7 +1994,7 @@ public class CustomerGreetingDataloader {
 </tr>
 <tr>
 <td><i class="conum" data-value="3"></i><b>3</b></td>
-<td>And we set the maximum batch size, to limit the number data that will be processed by the dataloader in a single call.</td>
+<td>And we set the maximum batch size, to limit the number of data that will be processed by the dataloader in a single call.</td>
 </tr>
 <tr>
 <td><i class="conum" data-value="4"></i><b>4</b></td>
@@ -1731,7 +2036,7 @@ Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#7
 </tr>
 <tr>
 <td><i class="conum" data-value="2"></i><b>2</b></td>
-<td>Note that the second call contains only 4 names. This is because the dataloader, by default, will <em>cache</em> the values, it does not call the API twice with the same input ("Dane" in our case).</td>
+<td>Note that the second call contains only 4 names. This is because the dataloader, by default, will <em>cache</em> the service calls, it does not call the API twice with the same input ("Dane" in our case).</td>
 </tr>
 </table>
 </div>
@@ -1755,7 +2060,7 @@ Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#7
 </div>
 </div>
 <div class="paragraph">
-<p>GraphQL and Spring for GraphqQL offer a very  <strong>flexible</strong> approach to implement data access services.</p>
+<p>GraphQL and Spring for GraphQL offer a very  <strong>flexible</strong> approach to implement data access services.</p>
 </div>
 <div class="paragraph">
 <p>Optimising such a service <strong>performance</strong> can be done using the <strong>Dataloader</strong> mechanism, allowing to address the Query N + 1 issue :</p>
@@ -1787,12 +2092,18 @@ Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#7
 <p><strong>Join</strong> tables when needed</p>
 </li>
 <li>
-<p>Select a "tree of date" using the <strong>Multiset</strong> feature</p>
+<p>Select a <strong>tree of data</strong> using the <strong>Multiset</strong> feature</p>
 </li>
 <li>
 <p>Select <strong>only the required fields</strong></p>
 </li>
+<li>
+<p>Manage <strong>filtering</strong> of data by mapping query inputs to where clause</p>
+</li>
 </ul>
+</div>
+<div class="paragraph">
+<p><strong>All this allows to fine tune the GraphQL performance when needed</strong>. But don&#8217;t forget the famous quote from D. Knuth.</p>
 </div>
 <table class="tableblock frame-non grid-none stretch">
 <colgroup>
@@ -1823,7 +2134,10 @@ Call openAI with names: [Leon, Hugh, Frances, Lawana] on thread VirtualThread[#7
 </tbody>
 </table>
 <div class="paragraph">
-<p>As suggested by D. Knuth, we should not always try to optimise the code from the start as it complexifies it. However, there is a good opportunity of performance improvement applying the strategies explained in this demo.</p>
+<p>As suggested by D. Knuth, we should not always try to optimise the code from the start as it <em>complexifies it</em>.</p>
+</div>
+<div class="paragraph">
+<p>However, there is a good <strong>opportunity of performance improvement</strong> applying the strategies explained in this demo.</p>
 </div>
 </div>
 </div>

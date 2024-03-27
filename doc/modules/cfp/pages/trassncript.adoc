@@ -1,0 +1,5 @@
+= Transcript
+
+Hello and welcome to this video about Efficient GraphQL implmementations in Java,
+
+My name is Didier
